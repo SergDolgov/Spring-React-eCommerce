@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: xsonic
+  jpa:
+    hibernate:
+      ddl-auto: none
+    generate-ddl: true
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/xsonic
+    username: postgres
+    password: postgres
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: 5049b7eaeffc3bfa6c1a# ${GITHUB_CLIENT_ID}
+            clientSecret: 90698b57285c79cc44cfadcc85c316e8806d2e86 # ${GITHUB_CLIENT_SECRET}
+            scope: read:user, user:email
+          google:
+            clientId: 528234244330-fmgn7klkc9eld7r9uhbcct2lu718pu8m.apps.googleusercontent.com # ${GOOGLE_CLIENT_ID}
+            clientSecret: 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 # ${GOOGLE_CLIENT_SECRET}
+            scope: profile, email
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
+  mail:
+    host: smtp.gmail.com
+    username: saddolgov@gmail.com
+    password: qwe78945
+    port: 65
+    protocol: smtps
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  flyway:
+    locations: classpath:db/migration
+
+app:
+  jwt:
+    header: Authorization
+    # Signing key for HS512 algorithm
+    # In https://it-tools.tech/token-generator you can generate all kinds of keys
+    secret: v9y$B&E)H@MbQeThWmZq4t7w!z%C*F-JaNdRfUjXn2r5u8x/A?D(G+KbPeShVkYp
+    #secret: djaveu
+    expiration:
+        minutes: 60
+  oauth2:
+    #redirectUri: http://localhost:3000/oauth2/redirect
+    redirectUri: http://localhost:9000/oauth2/redirect
+  cors:
+    #allowed-origins: http://localhost:3000
+    allowed-origins: http://localhost:9000
+
+recaptcha:
+  secret: 6Lc5cLkZAAAAANUjd4--Jx6PioSC_N-9MFKT3PsA
+  url: https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+
+mail:
+  debug: true
+
+server:
+  port: 8888
