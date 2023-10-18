@@ -7,20 +7,20 @@ spring:
     generate-ddl: true
     show-sql: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/xsonic
-    username: postgres
-    password: postgres
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost/xsonic}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
   security:
     oauth2:
       client:
         registration:
           github:
-            clientId: 5049b7eaeffc3bfa6c1a# ${GITHUB_CLIENT_ID}
-            clientSecret: 90698b57285c79cc44cfadcc85c316e8806d2e86 # ${GITHUB_CLIENT_SECRET}
+            clientId: ${GITHUB_CLIENT_ID:5049b7eaeffc3bfa6c1a}
+            clientSecret: ${GITHUB_CLIENT_SECRET:90698b57285c79cc44cfadcc85c316e8806d2e86}
             scope: read:user, user:email
           google:
-            clientId: 528234244330-fmgn7klkc9eld7r9uhbcct2lu718pu8m.apps.googleusercontent.com # ${GOOGLE_CLIENT_ID}
-            clientSecret: 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 # ${GOOGLE_CLIENT_SECRET}
+            clientId: ${GOOGLE_CLIENT_ID:528234244330-fmgn7klkc9eld7r9uhbcct2lu718pu8m.apps.googleusercontent.com}
+            clientSecret: ${GOOGLE_CLIENT_SECRET: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}
             scope: profile, email
   servlet:
     multipart:
