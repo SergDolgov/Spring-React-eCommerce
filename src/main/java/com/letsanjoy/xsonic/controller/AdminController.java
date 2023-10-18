@@ -10,6 +10,7 @@ import com.letsanjoy.xsonic.mapper.OrderMapper;
 import com.letsanjoy.xsonic.mapper.ProductMapper;
 import com.letsanjoy.xsonic.mapper.UserMapper;
 import com.letsanjoy.xsonic.constants.PathConstants;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Pageable;
@@ -23,9 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.Valid;
 import java.util.List;
 
+import static com.letsanjoy.xsonic.constants.PathConstants.BEARER_KEY_SECURITY_SCHEME;
+
 @RestController
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ADMIN')")
+@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)
 @RequestMapping(PathConstants.API_V1_ADMIN)
 public class AdminController {
 

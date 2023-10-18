@@ -88,7 +88,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
-        //sendEmail(user, "Activation code", "registration-template", "registrationUrl", "/activate/" + user.getActivationCode());
+        sendEmail(user, "Activation code", "registration-template", "registrationUrl", "/activate/" + user.getActivationCode());
         return "User successfully registered.";
     }
 
@@ -128,7 +128,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setPasswordResetCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
-        //sendEmail(user, "Password reset", "password-reset-template", "resetUrl", "/reset/" + user.getPasswordResetCode());
+        sendEmail(user, "Password reset", "password-reset-template", "resetUrl", "/reset/" + user.getPasswordResetCode());
         return "Reset password code is send to your E-mail";
     }
 

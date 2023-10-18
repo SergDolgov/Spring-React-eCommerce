@@ -7,6 +7,7 @@ import com.letsanjoy.xsonic.dto.order.OrderResponse;
 import com.letsanjoy.xsonic.mapper.OrderMapper;
 import com.letsanjoy.xsonic.security.UserPrincipal;
 import com.letsanjoy.xsonic.constants.PathConstants;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.List;
 
+import static com.letsanjoy.xsonic.constants.PathConstants.BEARER_KEY_SECURITY_SCHEME;
+
 @RestController
 @RequiredArgsConstructor
+@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)
 @RequestMapping(PathConstants.API_V1_ORDER)
 public class OrderController {
 

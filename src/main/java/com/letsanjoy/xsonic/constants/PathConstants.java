@@ -2,6 +2,7 @@ package com.letsanjoy.xsonic.constants;
 
 public class PathConstants {
 
+    public static final String BEARER_KEY_SECURITY_SCHEME = "bearer-key";
     public static final String API_V1 = "/api/v1";
     public static final String ORDER = "/order";
     public static final String ORDERS = "/orders";
