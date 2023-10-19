@@ -15,7 +15,7 @@ import static com.letsanjoy.xsonic.constants.PathConstants.BEARER_KEY_SECURITY_S
                 contact = @Contact(
                         name = "Sergey Dolgov",
                         email = "saddolgov@gmail.com",
-                        url = "https://saddolgov.dev"
+                        url = "https://sergeydolgov.dev"
                 )
         )
 )
