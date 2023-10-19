@@ -13,9 +13,9 @@ import static com.letsanjoy.xsonic.constants.PathConstants.BEARER_KEY_SECURITY_S
                 title = "XSonic System Api",
                 description = "XSonic System", version = "1.0.0",
                 contact = @Contact(
-                      //  name = "Struchkov Mark",
-                      //  email = "mark@struchkov.dev",
-                      //  url = "https://mark.struchkov.dev"
+                        name = "Sergey Dolgov",
+                        email = "saddolgov@gmail.com",
+                        url = "https://saddolgov.dev"
                 )
         )
 )
