@@ -3,8 +3,8 @@ import { config } from '../Constants'
 import { parseJwt } from './helpers'
 
 export const productApi = {
-  authenticate,
-  signup,
+  login,
+  registration,
   numberOfUsers,
   numberOfProducts,
   getUsers,
@@ -17,14 +17,14 @@ export const productApi = {
   addProduct
 }
 
-function authenticate(username, password) {
-  return instance.post('/auth/authenticate', { username, password }, {
+function login(user) {
+  return instance.post('/api/v1/auth/login', user, {
     headers: { 'Content-type': 'application/json' }
   })
 }
 
-function signup(user) {
-  return instance.post('/auth/signup', user, {
+function registration(user) {
+  return instance.post('/api/v1/registration', user, {
     headers: { 'Content-type': 'application/json' }
   })
 }

@@ -10,7 +10,7 @@ import SearchBar from './SearchBar';
 
 const Header = () => {
 
-    const { formUserInfo, toggleForm, toggleSearch } = useContext(commonContext);
+    const { formUserInfo, toggleForm, toggleSearch, userLogout } = useContext(commonContext);
     const { cartItems } = useContext(cartContext);
     const [isSticky, setIsSticky] = useState(false);
 
@@ -36,7 +36,7 @@ const Header = () => {
                 <div className="container">
                     <div className="navbar">
                         <h2 className="nav_logo">
-                            <Link to="/">X-Beat</Link>
+                            <Link to="/">X-Sonic</Link>
                         </h2>
                         <nav className="nav_actions">
                             <div className="search_action">
@@ -66,12 +66,19 @@ const Header = () => {
                                     <h4>Hello! {formUserInfo && <Link to="*">&nbsp;{formUserInfo}</Link>}</h4>
                                     <p>Access account and manage orders</p>
                                     {
-                                        !formUserInfo && (
+                                        !formUserInfo ? (
                                             <button
                                                 type="button"
                                                 onClick={() => toggleForm(true)}
                                             >
                                                 Login / Signup
+                                            </button>
+                                        ):(
+                                            <button
+                                                type="button"
+                                                onClick={() => userLogout()}
+                                            >
+                                                Logout
                                             </button>
                                         )
                                     }

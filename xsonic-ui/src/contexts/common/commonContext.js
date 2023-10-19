@@ -9,7 +9,7 @@ const initialState = {
     isFormOpen: false,
     formUserInfo: '',
     isSearchOpen: false,
-    searchResults: []
+    searchResults: [],
 };
 
 // Common-Provider Component
@@ -29,6 +29,14 @@ const CommonProvider = ({ children }) => {
         return dispatch({
             type: 'SET_FORM_USER_INFO',
             payload: { info }
+        });
+    };
+
+    const userLogout = () => {
+        localStorage.removeItem('user')
+        return dispatch({
+            type: 'LOGOUT',
+            payload: {  }
         });
     };
 
@@ -53,7 +61,8 @@ const CommonProvider = ({ children }) => {
         toggleForm,
         setFormUserInfo,
         toggleSearch,
-        setSearchResults
+        setSearchResults,
+        userLogout
     };
 
     return (

@@ -8,7 +8,7 @@ import useScrollDisable from '../../hooks/useScrollDisable';
 const AccountForm = () => {
 
     const { isFormOpen, toggleForm } = useContext(commonContext);
-    const { inputValues, handleInputValues, handleFormSubmit } = useForm();
+    const { inputValues, handleInputValues, handleFormSubmit, isError, errorMessage } = useForm();
 
     const formRef = useRef();
 
@@ -39,7 +39,7 @@ const AccountForm = () => {
                                 <div className="form_head">
                                     <h2>{isSignupVisible ? 'Signup' : 'Login'}</h2>
                                     <p>
-                                        {isSignupVisible ? 'Already have an account ?' : 'New to X-Beat ?'}
+                                        {isSignupVisible ? 'Already have an account ?' : 'New to X-Sonic ?'}
                                         &nbsp;&nbsp;
                                         <button type="button" onClick={handleIsSignupVisible}>
                                             {isSignupVisible ? 'Login' : 'Create an account'}
@@ -68,9 +68,9 @@ const AccountForm = () => {
                                     <div className="input_box">
                                         <input
                                             type="email"
-                                            name="mail"
+                                            name="email"
                                             className="input_field"
-                                            value={inputValues.mail || ''}
+                                            value={inputValues.email || ''}
                                             onChange={handleInputValues}
                                             required
                                         />
@@ -88,7 +88,6 @@ const AccountForm = () => {
                                         />
                                         <label className="input_label">Password</label>
                                     </div>
-
                                     {
                                         isSignupVisible && (
                                             <div className="input_box">
@@ -104,7 +103,7 @@ const AccountForm = () => {
                                             </div>
                                         )
                                     }
-
+                                    {isError && <label style={{color: 'red'}}>{errorMessage}</label>}
                                     <button
                                         type="submit"
                                         className="btn login_btn"

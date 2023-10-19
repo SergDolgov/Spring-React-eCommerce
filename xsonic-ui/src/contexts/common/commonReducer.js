@@ -28,6 +28,11 @@ const commonReducer = (state, action) => {
                 searchResults: action.payload.results
             };
 
+        case 'LOGOUT':
+            return {
+                ...state,
+                formUserInfo: action.payload.info
+            };
 
         default:
             return state;
