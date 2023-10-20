@@ -1,14 +1,11 @@
 import { useContext, useState } from 'react';
 import commonContext from '../contexts/common/commonContext';
-import { useAuth } from '../contexts/authContext'
 import { productApi } from '../misc/productApi'
 import { parseJwt, handleLogError } from '../misc/helpers'
 
 const useForm = () => {
 
-    const Auth = useAuth()
-
-    const { toggleForm, setFormUserInfo } = useContext(commonContext);
+    const { toggleForm, setFormUserInfo, userLogin } = useContext(commonContext);
     const [inputValues, setInputValues] = useState({});
     const [isError, setIsError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
@@ -52,11 +49,10 @@ const useForm = () => {
           const data = parseJwt(token)
           const authenticatedUser = { data, token }
 
-          //Auth.userLogin(authenticatedUser)
+          setFormUserInfo(loggedUserInfo);
+          userLogin(authenticatedUser);
 
           setInputValues({});
-          //setFormUserInfo(loggedUserInfo);
-          setFormUserInfo(authenticatedUser);
           toggleForm(false);
           alert(`Hello ${loggedUserInfo}, you're successfully logged-in.`);
 

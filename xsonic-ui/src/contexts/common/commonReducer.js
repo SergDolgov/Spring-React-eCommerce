@@ -11,7 +11,8 @@ const commonReducer = (state, action) => {
         case 'SET_FORM_USER_INFO':
             return {
                 ...state,
-                formUserInfo: action.payload.info
+                formUserInfo: action.payload.info,
+                userIsAuthenticated:true
             };
 
 
@@ -33,6 +34,7 @@ const commonReducer = (state, action) => {
                 ...state,
                 formUserInfo: action.payload.info
             };
+
 
         default:
             return state;

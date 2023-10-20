@@ -1,11 +1,9 @@
 import { useState, createContext, useEffect, useReducer } from 'react';
 import productsData from '../../data/productsData';
-import {productsContext} from '../../data/productsContext';
 import { brandsMenu, categoryMenu } from '../../data/filterBarData';
 import filtersReducer from './filtersReducer';
 import { productApi } from '../../misc/productApi'
 import { parseJwt, handleLogError } from '../../misc/helpers'
-//import { useAuth } from '../data/AuthContext'
 
 // Filters-Context
 const filtersContext = createContext();
@@ -61,7 +59,7 @@ const FiltersProvider = ({ children }) => {
     /* Loading All Products on the initial render */
     useEffect(() => {
 
-        // making a shallow copy of the original products data, because we should never mutate the orginal data.
+        // making a shallow copy of the original products data, because we should never mutate the original data.
         const products = [...productsData];
 
         // finding the Max and Min Price, & setting them into the state.

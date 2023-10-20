@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useState, useEffect } from 'react';
 import commonReducer from './commonReducer';
 
 // Common-Context
@@ -6,6 +6,8 @@ const commonContext = createContext();
 
 // Initial State
 const initialState = {
+    user: null,
+    userIsAuthenticated: false,
     isFormOpen: false,
     formUserInfo: '',
     isSearchOpen: false,
@@ -16,6 +18,36 @@ const initialState = {
 const CommonProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(commonReducer, initialState);
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem('user'))
+        setUser(storedUser)
+    }, [])
+
+    const getUser = () => {
+        return JSON.parse(localStorage.getItem('user'))
+    }
+
+    const userIsAuthenticated = () => {
+        let storedUser = localStorage.getItem('user')
+        if (!storedUser) {
+          return false
+        }
+        storedUser = JSON.parse(storedUser)
+
+        // if user has token expired, logout user
+        if (Date.now() > storedUser.data.exp * 1000) {
+          userLogout()
+          return false
+        }
+        return true
+    }
+
+    const userLogin = user => {
+        localStorage.setItem('user', JSON.stringify(user))
+        setUser(user)
+    }
 
     // Form actions
     const toggleForm = (toggle) => {
@@ -26,7 +58,7 @@ const CommonProvider = ({ children }) => {
     };
 
     const setFormUserInfo = (info) => {
-        return dispatch({
+            return dispatch({
             type: 'SET_FORM_USER_INFO',
             payload: { info }
         });
@@ -62,6 +94,10 @@ const CommonProvider = ({ children }) => {
         setFormUserInfo,
         toggleSearch,
         setSearchResults,
+        user,
+        getUser,
+        userIsAuthenticated,
+        userLogin,
         userLogout
     };
 
