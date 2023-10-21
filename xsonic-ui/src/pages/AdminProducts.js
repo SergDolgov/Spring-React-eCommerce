@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { BsExclamationCircle, BsPencilSquare, BsTrash, BsPlusSquare, BsFiles } from 'react-icons/bs';
 import useDocTitle from '../hooks/useDocTitle';
 import FilterBar from '../components/filters/FilterBar';
-import ProductCard from '../components/product/ProductCard';
 import Services from '../components/common/Services';
 import filtersContext from '../contexts/filters/filtersContext';
 import commonContext from '../contexts/common/commonContext';
@@ -12,7 +11,7 @@ import ProductForm from '../components/form/ProductForm';
 const AllProducts = () => {
     useDocTitle('All Products');
 
-    const { formProductInfo, setFormProductInfo, toggleFormProduct, getUser } = useContext(commonContext);
+    const { toggleFormProduct, getUser } = useContext(commonContext);
 
     const { allProducts } = useContext(filtersContext);
     const [selectedProduct, setSelectedProduct] = useState({});
@@ -39,7 +38,7 @@ const AllProducts = () => {
         // Обработчик удаления продукта
     };
 
-    const onSaveProduct = (product) => {
+    const handleSaveProduct = (product) => {
         // Обработчик удаления продукта
     };
 
@@ -95,7 +94,7 @@ const AllProducts = () => {
             <Services />
             <ProductForm
                 selectedProduct={selectedProduct}
-                onSaveProduct={onSaveProduct}
+                handleSaveProduct={handleSaveProduct}
             />
         </>
     );
