@@ -1,88 +1,90 @@
-import React, { useContext } from 'react';
-import { BsExclamationCircle } from 'react-icons/bs';
-import { Button, Image, Table } from 'semantic-ui-react'
+import React, { useContext, useState } from 'react';
+import { BsExclamationCircle, BsPencilSquare, BsTrash, BsPlusSquare } from 'react-icons/bs';
 import useDocTitle from '../hooks/useDocTitle';
 import FilterBar from '../components/filters/FilterBar';
-//import ProductCard from '../components/product/ProductCard';
+import ProductCard from '../components/product/ProductCard';
 import Services from '../components/common/Services';
 import filtersContext from '../contexts/filters/filtersContext';
+import commonContext from '../contexts/common/commonContext';
 import EmptyView from '../components/common/EmptyView';
+import ProductForm from '../components/form/ProductForm';
 
+const AllProducts = () => {
+    useDocTitle('All Products');
 
-const AdminProducts = () => {
-
-    useDocTitle('Admin Products');
+    const { formProductInfo, setFormProductInfo, toggleFormProduct, getUser } = useContext(commonContext);
 
     const { allProducts } = useContext(filtersContext);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
-    // handling Delete-product
-    const handleDeleteProduct = (productId) => {
-        //const product = { ...props };
-        //deleteProduct(product);
+    const handleAddProduct = () => {
+        setFormProductInfo(null);
+        toggleFormProduct(true)
+    };
+
+    const handleEditProduct = () => {
+        if (selectedProduct != null) {
+            setFormProductInfo(selectedProduct);
+            toggleFormProduct(true)
+        }
+    };
+
+    const handleDeleteProduct = () => {
+        // Обработчик удаления продукта
     };
 
     return (
         <>
             <section id="admin_products" className="section">
                 <FilterBar />
-
                 <div className="container">
-                    {
-                        allProducts.length ? (
-                            <div className="wrapper products_table_wrapper">
-                                {
-                                    allProducts.map(item => (
-                                        <Table.Row key={item.id}>
-                                          <Table.Cell collapsing>
-                            <div className="products_table_btn">
-                                <button
-                                    type="button"
-                                    circular
-                                    icon='trash'
-                                    //className="btn"
-                                    onClick={handleDeleteProduct}
-                                >+
-                                </button>
-                            </div>
-                                            <Button
-                                              circular
-                                              color='red'
-                                              size='small'
-                                              icon='trash'
-                                              onClick={() => handleDeleteProduct(item.id)}
-                                            />
-                                          </Table.Cell>
-                                          <Table.Cell>
-                                            {// item.images ?
-                                            //<Image src={item.images[0]} size='tiny' bordered rounded /> :
-                                            <Image src='/images/product-poster.jpg' size='tiny' bordered rounded />
-                                            }
-                                          </Table.Cell>
-                                          <Table.Cell>{item.id}</Table.Cell>
-                                          <Table.Cell>{item.category}</Table.Cell>
-                                          <Table.Cell>{item.title}</Table.Cell>
-                                          <Table.Cell>{item.info}</Table.Cell>
-                                          <Table.Cell>{item.ratings}</Table.Cell>
-                                          <Table.Cell>{item.rateCount}</Table.Cell>
-                                          <Table.Cell>{item.originalPrice}</Table.Cell>
-                                          <Table.Cell>{item.finalPrice}</Table.Cell>
-                                        </Table.Row>
-                                    ))
-                                }
-                            </div>
-                        ) : (
-                            <EmptyView
-                                icon={<BsExclamationCircle />}
-                                msg="No Results Found"
-                            />
-                        )
-                    }
+                    <div className="actions">
+                        <BsPlusSquare onClick={handleAddProduct} className="action-icon" />
+                        <BsPencilSquare onClick={handleEditProduct} className="action-icon" />
+                        <BsTrash onClick={handleDeleteProduct} className="action-icon" />
+                    </div>
+                    {allProducts.length ? (
+                        <table className="product-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Brand</th>
+                                    <th>Title</th>
+                                    <th>Info</th>
+                                    <th>Category</th>
+                                    <th>Type</th>
+                                    <th>Connectivity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {allProducts.map(item => (
+                                    <tr
+                                        key={item.id}
+                                        className={selectedProduct === item ? 'selected-row' : ''}
+                                        onClick={() => setSelectedProduct(item)}
+                                    >
+                                        <td>{item.id}</td>
+                                        <td>{item.brand}</td>
+                                        <td>{item.title}</td>
+                                        <td>{item.info}</td>
+                                        <td>{item.category}</td>
+                                        <td>{item.type}</td>
+                                        <td>{item.connectivity}</td>
+                                        <td>${item.finalPrice}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <EmptyView icon={<BsExclamationCircle />} msg="No Results Found" />
+                    )}
                 </div>
             </section>
-
             <Services />
+            <ProductForm />
         </>
     );
 };
 
-export default AdminProducts;
+export default AllProducts;

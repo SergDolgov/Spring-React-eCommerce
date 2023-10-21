@@ -10,6 +10,8 @@ const initialState = {
     userIsAuthenticated: false,
     isFormOpen: false,
     formUserInfo: '',
+    isFormProductOpen: false,
+    formProductInfo: null,
     isSearchOpen: false,
     searchResults: [],
 };
@@ -49,7 +51,7 @@ const CommonProvider = ({ children }) => {
         setUser(user)
     }
 
-    // Form actions
+    // Form login actions
     const toggleForm = (toggle) => {
         return dispatch({
             type: 'TOGGLE_FORM',
@@ -64,11 +66,26 @@ const CommonProvider = ({ children }) => {
         });
     };
 
-    const userLogout = () => {
-        localStorage.removeItem('user')
+     const userLogout = () => {
+         localStorage.removeItem('user')
+         return dispatch({
+             type: 'LOGOUT',
+             payload: {  }
+         });
+     };
+
+   // Form product actions
+    const toggleFormProduct = (toggle) => {
         return dispatch({
-            type: 'LOGOUT',
-            payload: {  }
+            type: 'TOGGLE_FORM_PRODUCT',
+            payload: { toggle }
+        });
+    };
+
+    const setFormProductInfo = (product) => {
+            return dispatch({
+            type: 'SET_FORM_PRODUCT_INFO',
+            payload: { product }
         });
     };
 
@@ -91,6 +108,8 @@ const CommonProvider = ({ children }) => {
     const values = {
         ...state,
         toggleForm,
+        toggleFormProduct,
+        setFormProductInfo,
         setFormUserInfo,
         toggleSearch,
         setSearchResults,

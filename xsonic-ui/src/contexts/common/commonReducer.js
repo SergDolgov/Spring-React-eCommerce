@@ -8,11 +8,24 @@ const commonReducer = (state, action) => {
             };
 
 
+        case 'TOGGLE_FORM_PRODUCT':
+            return {
+                ...state,
+                isFormProductOpen: action.payload.toggle
+            };
+
+
         case 'SET_FORM_USER_INFO':
             return {
                 ...state,
-                formUserInfo: action.payload.info,
-                userIsAuthenticated:true
+                formUserInfo: action.payload.info
+            };
+
+
+        case 'SET_FORM_PRODUCT_INFO':
+            return {
+                ...state,
+                formProductInfo: action.payload.product
             };
 
 
