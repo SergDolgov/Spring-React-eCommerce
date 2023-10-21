@@ -29,30 +29,6 @@ const initialState = {
 // Filters-Provider Component
 const FiltersProvider = ({ children }) => {
 
-  //const Auth = productsContext()
-  //const products1 = Auth.getProducts()
-
-//  const [products1, setProducts1] = useState([])
-//  const [isProductsLoading, setIsProductsLoading] = useState(false)
-//
-//  useEffect(() => {
-//     //setProducts1(productsData1)
-//    //handleGetProducts()
-//  }, [])
-
-//  const handleGetProducts = async () => {
-//    setIsProductsLoading(true)
-//    try {
-//      const response = await productApi.getProducts()
-//      setProducts1(response.data)
-//    } catch (error) {
-//      handleLogError(error)
-//    } finally {
-//      setIsProductsLoading(false)
-//    }
-//  }
-
-
     const [state, dispatch] = useReducer(filtersReducer, initialState);
 
 

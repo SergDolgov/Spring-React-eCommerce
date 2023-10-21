@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { BsExclamationCircle, BsPencilSquare, BsTrash, BsPlusSquare } from 'react-icons/bs';
+import { BsExclamationCircle, BsPencilSquare, BsTrash, BsPlusSquare, BsFiles } from 'react-icons/bs';
 import useDocTitle from '../hooks/useDocTitle';
 import FilterBar from '../components/filters/FilterBar';
 import ProductCard from '../components/product/ProductCard';
@@ -15,21 +15,31 @@ const AllProducts = () => {
     const { formProductInfo, setFormProductInfo, toggleFormProduct, getUser } = useContext(commonContext);
 
     const { allProducts } = useContext(filtersContext);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [selectedProduct, setSelectedProduct] = useState({});
 
     const handleAddProduct = () => {
-        setFormProductInfo(null);
+        setSelectedProduct({});
         toggleFormProduct(true)
     };
 
     const handleEditProduct = () => {
         if (selectedProduct != null) {
-            setFormProductInfo(selectedProduct);
+            toggleFormProduct(true)
+        }
+    };
+
+    const handleCopyProduct = () => {
+        if (selectedProduct != null) {
+            setSelectedProduct({ ...selectedProduct, ['id']: 0 });
             toggleFormProduct(true)
         }
     };
 
     const handleDeleteProduct = () => {
+        // Обработчик удаления продукта
+    };
+
+    const onSaveProduct = (product) => {
         // Обработчик удаления продукта
     };
 
@@ -40,6 +50,7 @@ const AllProducts = () => {
                 <div className="container">
                     <div className="actions">
                         <BsPlusSquare onClick={handleAddProduct} className="action-icon" />
+                        <BsFiles  onClick={handleCopyProduct} className="action-icon" />
                         <BsPencilSquare onClick={handleEditProduct} className="action-icon" />
                         <BsTrash onClick={handleDeleteProduct} className="action-icon" />
                     </div>
@@ -82,7 +93,10 @@ const AllProducts = () => {
                 </div>
             </section>
             <Services />
-            <ProductForm />
+            <ProductForm
+                selectedProduct={selectedProduct}
+                onSaveProduct={onSaveProduct}
+            />
         </>
     );
 };

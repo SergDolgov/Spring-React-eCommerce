@@ -11,7 +11,6 @@ const initialState = {
     isFormOpen: false,
     formUserInfo: '',
     isFormProductOpen: false,
-    formProductInfo: null,
     isSearchOpen: false,
     searchResults: [],
 };
@@ -82,13 +81,6 @@ const CommonProvider = ({ children }) => {
         });
     };
 
-    const setFormProductInfo = (product) => {
-            return dispatch({
-            type: 'SET_FORM_PRODUCT_INFO',
-            payload: { product }
-        });
-    };
-
     // Search actions
     const toggleSearch = (toggle) => {
         return dispatch({
@@ -109,7 +101,6 @@ const CommonProvider = ({ children }) => {
         ...state,
         toggleForm,
         toggleFormProduct,
-        setFormProductInfo,
         setFormUserInfo,
         toggleSearch,
         setSearchResults,

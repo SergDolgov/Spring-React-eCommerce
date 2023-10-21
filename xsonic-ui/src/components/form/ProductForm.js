@@ -1,20 +1,31 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import commonContext from '../../contexts/common/commonContext';
-import useFormProduct from '../../hooks/useFormProduct';
 import useOutsideClose from '../../hooks/useOutsideClose';
 import useScrollDisable from '../../hooks/useScrollDisable';
 
-const ProductForm = () => {
+const ProductForm = ({selectedProduct, onSaveProduct}) => {
 
     const { isFormProductOpen, toggleFormProduct } = useContext(commonContext);
-    const { inputValues, handleSetInputValues, handleInputValues, handleSaveProduct, isError, errorMessage } = useFormProduct();
     const [ isNewProduct, setIsNewProduct] = useState(true);
 
-//    if (formProductInfo != null) {
-        handleSetInputValues();
-//        setIsNewProduct(false)
-//    }
+    const [isError, setIsError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+
+    const [inputValues, setInputValues] = useState({});
+
+    useEffect(() => {
+        setInputValues(selectedProduct);
+    }, [selectedProduct]);
+
+    const handleInputValues = (e) => {
+        const { name, value } = e.target;
+        setInputValues({ ...inputValues, [name]: value });
+    };
+
+    const handleSaveProduct = () => {
+        onSaveProduct(inputValues);
+    };
 
     const formRef = useRef();
 
@@ -30,11 +41,11 @@ const ProductForm = () => {
                 isFormProductOpen && (
                     <div className="backdrop">
                         <div className="modal_centered">
-                            <form id="account_form" ref={formRef} onSubmit={handleSaveProduct}>
+                            <form id="product_form" ref={formRef} onSubmit={handleSaveProduct}>
 
                                 {/*===== Form-Header =====*/}
                                 <div className="form_head">
-                                    <h2>{isNewProduct ? 'Add new product' : 'Edit product'}</h2>
+                                    <h2>{inputValues.id ? 'Edit product': 'Add new product'}</h2>
                                 </div>
 
                                 {/*===== Form-Body =====*/}
@@ -119,18 +130,22 @@ const ProductForm = () => {
                                     </div>
 
                                     {isError && <label style={{color: 'red'}}>{errorMessage}</label>}
-                                    <button
-                                        type="submit"
-                                        className="btn login_btn"
-                                    >
-                                        Save
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="btn login_btn"
-                                    >
-                                        Cancel
-                                    </button>
+
+                                    <div className="actions">
+                                        <button
+                                            type="submit"
+                                            className="btn save_btn"
+                                        >
+                                            Save
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="btn cancel_btn"
+                                            onClick={() => toggleFormProduct(false)}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
 
                                 </div>
 

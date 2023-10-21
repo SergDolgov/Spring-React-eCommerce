@@ -64,7 +64,7 @@ const ProductDetails = () => {
 
     return (
         <>
-            <section id="product_details" className="section">
+            <section id="edit_product_details" className="section">
                 <div className="container">
                     <div className="wrapper prod_details_wrapper">
 
