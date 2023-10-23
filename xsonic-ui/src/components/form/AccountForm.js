@@ -1,9 +1,9 @@
 import React, { useContext, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import commonContext from '../../contexts/common/commonContext';
 import useForm from '../../hooks/useForm';
 import useOutsideClose from '../../hooks/useOutsideClose';
 import useScrollDisable from '../../hooks/useScrollDisable';
+import {getSocialLoginUrl} from '../../misc/helpers';
 
 const AccountForm = () => {
 
@@ -117,9 +117,9 @@ const AccountForm = () => {
                                 <div className="form_foot">
                                     <p>or login with</p>
                                     <div className="login_options">
-                                        <Link to="/">Facebook</Link>
-                                        <Link to="/">Google</Link>
-                                        <Link to="/">Twitter</Link>
+                                        <a href={getSocialLoginUrl('facebook')}>Facebook</a>
+                                        <a href={getSocialLoginUrl('google')}>Google</a >
+                                        <a href={getSocialLoginUrl('githab')}>Githab</a>
                                     </div>
                                 </div>
 

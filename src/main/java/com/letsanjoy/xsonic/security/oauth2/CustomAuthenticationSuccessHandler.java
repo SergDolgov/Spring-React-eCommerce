@@ -22,14 +22,23 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     @Value("${app.oauth2.redirectUri}")
     private String redirectUri;
 
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        handle(request, response, authentication);
+        super.clearAuthenticationAttributes(request);
+    }
+
+    @Override
+    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        String targetUrl = redirectUri.isEmpty() ?
+                determineTargetUrl(request, response, authentication) : redirectUri;
+
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String email = (String) oAuth2User.getAttributes().get("email");
         String token = tokenProvider.generate(email, "USER");
-        String uri = UriComponentsBuilder.fromUriString(redirectUri + "/oauth2/redirect")
-                .queryParam("token", token)
-                .build().toUriString();
-        getRedirectStrategy().sendRedirect(request, response, uri);
+        targetUrl = UriComponentsBuilder.fromUriString(targetUrl).queryParam("token", token).build().toUriString();
+        getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
+
 }

@@ -45,15 +45,10 @@ public class WebSecurityConfiguration {
                                 antMatcher("/api/v1/order/**"),
                                 antMatcher("/api/v1/review/**"),
                                 antMatcher("/api/v1/users/cart"),
-                                antMatcher("/img/**"),
-                                antMatcher("/static/**"),
-                                antMatcher("/websocket"),
-                                antMatcher("/websocket/**"),
-                                antMatcher("/api/v1/products/**"),
-                                antMatcher("/api/v1/products/cart/**")).permitAll()//.hasAnyAuthority(ADMIN, USER)
+                                antMatcher("/api/v1/products/**")).permitAll()//.hasAnyAuthority(ADMIN, USER)
                         .requestMatchers(
-                                antMatcher("/api/v1/users"),
-                                antMatcher("/api/v1/users/**")).permitAll()//.hasAnyAuthority(ADMIN)
+                                antMatcher("/api/v1/admin/products"),
+                                antMatcher("/api/v1/admin/users")).permitAll()//.hasAnyAuthority(ADMIN)
                         .requestMatchers(
                                 antMatcher("/auth/**"),
                                 antMatcher("/oauth2/**")).permitAll()
@@ -61,6 +56,10 @@ public class WebSecurityConfiguration {
                                 antMatcher("/"),
                                 antMatcher("/error"),
                                 antMatcher("/csrf"),
+                                antMatcher("/img/**"),
+                                antMatcher("/static/**"),
+                                antMatcher("/websocket"),
+                                antMatcher("/websocket/**"),
                                 antMatcher("/swagger-ui.html"),
                                 antMatcher("/swagger-ui/**"),
                                 antMatcher("/v3/api-docs"),
@@ -68,8 +67,9 @@ public class WebSecurityConfiguration {
                         .anyRequest().authenticated()
                         )
                 .oauth2Login(oauth2Login -> oauth2Login
-                        .userInfoEndpoint().userService(customOauth2UserService)
-                        .and()
+                        .userInfoEndpoint(userInfoEndpoint ->
+                                userInfoEndpoint
+                                        .userService(customOauth2UserService))
                         .successHandler(customAuthenticationSuccessHandler))
                 .logout(l -> l.logoutSuccessUrl("/").permitAll())
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

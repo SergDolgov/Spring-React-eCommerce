@@ -19,8 +19,8 @@ spring:
             clientSecret: ${GITHUB_CLIENT_SECRET:90698b57285c79cc44cfadcc85c316e8806d2e86}
             scope: read:user, user:email
           google:
-            clientId: ${GOOGLE_CLIENT_ID:528234244330-fmgn7klkc9eld7r9uhbcct2lu718pu8m.apps.googleusercontent.com}
-            clientSecret: ${GOOGLE_CLIENT_SECRET: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}
+            clientId: ${GOOGLE_CLIENT_ID:452294761260-c38fh0tjbumc3abspj8khd8qnvlv2vri.apps.googleusercontent.com}
+            clientSecret: ${GOOGLE_CLIENT_SECRET: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}
             scope: profile, email
   servlet:
     multipart:
