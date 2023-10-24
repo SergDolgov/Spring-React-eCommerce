@@ -2,8 +2,8 @@ import { useState, createContext, useEffect, useReducer } from 'react';
 import productsData from '../../data/productsData';
 import { brandsMenu, categoryMenu } from '../../data/filterBarData';
 import filtersReducer from './filtersReducer';
-import { productApi } from '../../misc/productApi'
-import { parseJwt, handleLogError } from '../../misc/helpers'
+import { productApi } from '../../helpers/productApi'
+import { parseJwt, handleLogError } from '../../helpers/utils'
 
 // Filters-Context
 const filtersContext = createContext();

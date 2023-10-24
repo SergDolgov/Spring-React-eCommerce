@@ -15,8 +15,8 @@ spring:
       client:
         registration:
           github:
-            clientId: ${GITHUB_CLIENT_ID:5049b7eaeffc3bfa6c1a}
-            clientSecret: ${GITHUB_CLIENT_SECRET:90698b57285c79cc44cfadcc85c316e8806d2e86}
+            clientId: ${GITHUB_CLIENT_ID:1153f68a72318896d4d6}
+            clientSecret: ${GITHUB_CLIENT_SECRET:dad649876e973a2010c4d5089c6513dbd0a1cc07}
             scope: read:user, user:email
           google:
             clientId: ${GOOGLE_CLIENT_ID:452294761260-c38fh0tjbumc3abspj8khd8qnvlv2vri.apps.googleusercontent.com}

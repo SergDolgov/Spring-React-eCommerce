@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AiOutlineSearch, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
-import { dropdownMenu } from '../../data/headerData';
+import { AiOutlineSearch, AiOutlineShoppingCart, AiOutlineUser, AiOutlineSmile } from 'react-icons/ai';
+import { dropdownMenuUser, dropdownMenuAdmin } from '../../data/headerData';
 import commonContext from '../../contexts/common/commonContext';
 import cartContext from '../../contexts/cart/cartContext';
 import AccountForm from '../form/AccountForm';
 import SearchBar from './SearchBar';
 
-
 const Header = () => {
 
-    const { formUserInfo, toggleForm, toggleSearch, userLogout, getUser } = useContext(commonContext);
+    const { formUserInfo, toggleForm, toggleSearch, userLogout, userRole } = useContext(commonContext);
     const { cartItems } = useContext(cartContext);
     const [isSticky, setIsSticky] = useState(false);
 
@@ -60,11 +59,11 @@ const Header = () => {
 
                             <div className="user_action">
                                 <span>
-                                    <AiOutlineUser />
+                                    {formUserInfo ? <AiOutlineSmile/> : <AiOutlineUser/>}
                                 </span>
                                 <div className="dropdown_menu">
                                     <h4>Hello! {formUserInfo && <Link to="*">&nbsp;{formUserInfo}</Link>}</h4>
-                                    <p>Access account and manage orders</p>
+                                    {formUserInfo && <p>Access account and manage orders</p>}
                                     {
                                         !formUserInfo ? (
                                             <button
@@ -82,10 +81,19 @@ const Header = () => {
                                             </button>
                                         )
                                     }
-                                    <div className="separator"></div>
+                                    {formUserInfo && <div className="separator"></div>}
                                     <ul>
-                                        {
-                                            dropdownMenu.map(item => {
+                                        {formUserInfo && userRole() === "USER" &&
+                                            dropdownMenuUser.map(item => {
+                                                const { id, link, path } = item;
+                                                return (
+                                                    <li key={id}>
+                                                        <Link to={path}>{link}</Link>
+                                                    </li>
+                                                );
+                                            })}
+                                        {formUserInfo && userRole() === "ADMIN" &&
+                                            dropdownMenuAdmin.map(item => {
                                                 const { id, link, path } = item;
                                                 return (
                                                     <li key={id}>

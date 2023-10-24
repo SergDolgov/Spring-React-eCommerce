@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import commonContext from '../contexts/common/commonContext';
-import { productApi } from '../misc/productApi'
-import { parseJwt, handleLogError } from '../misc/helpers'
+import { productApi } from '../helpers/productApi'
+import { parseJwt, handleLogError } from '../helpers/utils'
 
 const useForm = () => {
 
@@ -54,7 +54,7 @@ const useForm = () => {
 
           setInputValues({});
           toggleForm(false);
-          alert(`Hello ${loggedUserInfo}, you're successfully logged-in.`);
+          //alert(`Hello ${loggedUserInfo}, you're successfully logged-in.`);
 
           setIsError(false)
           setErrorMessage('')
@@ -63,13 +63,14 @@ const useForm = () => {
           if (error.response && error.response.data) {
             const errorData = error.response.data
             let errorMessage = 'Invalid fields'
-            if (errorData.status === 409) {
+            if (error.response.status === 409) {
               errorMessage = errorData.message
-            } else if (errorData.status === 400) {
-              errorMessage = errorData.errors[0].defaultMessage
-            } else if (error.response.status === 404 || errorData.status === 404) {
+            } else if (error.response.status === 400) {
+              errorMessage = errorData.emailError
+            } else if (error.response.status === 404) {
               errorMessage = errorData
             }
+
             setIsError(true)
             setErrorMessage(errorMessage)
           }

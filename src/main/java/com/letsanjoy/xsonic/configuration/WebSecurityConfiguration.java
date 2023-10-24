@@ -45,10 +45,13 @@ public class WebSecurityConfiguration {
                                 antMatcher("/api/v1/order/**"),
                                 antMatcher("/api/v1/review/**"),
                                 antMatcher("/api/v1/users/cart"),
-                                antMatcher("/api/v1/products/**")).permitAll()//.hasAnyAuthority(ADMIN, USER)
+                                antMatcher("/api/v1/products/**")).permitAll()
                         .requestMatchers(
-                                antMatcher("/api/v1/admin/products"),
-                                antMatcher("/api/v1/admin/users")).permitAll()//.hasAnyAuthority(ADMIN)
+                                antMatcher("/api/v1/user/orders"),
+                                antMatcher("/api/v1/user/addresses")).hasAnyAuthority(USER)
+                        .requestMatchers(
+                                antMatcher("/api/v1/user/products"),
+                                antMatcher("/api/v1/user/users")).hasAnyAuthority(ADMIN)
                         .requestMatchers(
                                 antMatcher("/auth/**"),
                                 antMatcher("/oauth2/**")).permitAll()
@@ -79,7 +82,6 @@ public class WebSecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
-
 
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";

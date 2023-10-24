@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import commonContext from '../contexts/common/commonContext'
-import { parseJwt } from '../misc/helpers'
+import { parseJwt } from '../helpers/utils'
 
 function OAuth2Redirect() {
   const { userLogin } = useContext(commonContext)

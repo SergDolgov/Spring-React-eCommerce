@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { config } from '../Constants'
-import { parseJwt } from './helpers'
+import { parseJwt } from './utils'
 
 export const productApi = {
   login,

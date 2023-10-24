@@ -1,5 +1,5 @@
 {
-  "name": "xsonic-app",
+  "name": "xsonic-ui",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,7 +18,7 @@
     "semantic-ui-react": "^2.1.4"
   },
   "scripts": {
-    "start": "set PORT=9000 && react-scripts start",
+    "start": "export PORT=9000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

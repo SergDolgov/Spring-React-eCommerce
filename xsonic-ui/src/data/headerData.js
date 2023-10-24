@@ -1,8 +1,8 @@
-export const dropdownMenu = [
+export const dropdownMenuUser = [
     {
         id: 1,
         link: "Orders",
-        path: "/admin/products",
+        path: "/user/orders",
     },
     {
         id: 2,
@@ -23,5 +23,18 @@ export const dropdownMenu = [
         id: 5,
         link: "Saved Addresses",
         path: "*",
+    },
+];
+
+export const dropdownMenuAdmin = [
+    {
+        id: 1,
+        link: "Products",
+        path: "/admin/products",
+    },
+    {
+        id: 2,
+        link: "Users",
+        path: "/admin/users",
     },
 ];

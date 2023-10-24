@@ -3,7 +3,7 @@ import commonContext from '../../contexts/common/commonContext';
 import useForm from '../../hooks/useForm';
 import useOutsideClose from '../../hooks/useOutsideClose';
 import useScrollDisable from '../../hooks/useScrollDisable';
-import {getSocialLoginUrl} from '../../misc/helpers';
+import {getSocialLoginUrl} from '../../helpers/utils';
 
 const AccountForm = () => {
 
@@ -119,7 +119,7 @@ const AccountForm = () => {
                                     <div className="login_options">
                                         <a href={getSocialLoginUrl('facebook')}>Facebook</a>
                                         <a href={getSocialLoginUrl('google')}>Google</a >
-                                        <a href={getSocialLoginUrl('githab')}>Githab</a>
+                                        <a href={getSocialLoginUrl('github')}>Github</a>
                                     </div>
                                 </div>
 
