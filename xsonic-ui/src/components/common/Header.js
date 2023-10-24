@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineSearch, AiOutlineShoppingCart, AiOutlineUser, AiOutlineSmile } from 'react-icons/ai';
 import { dropdownMenuUser, dropdownMenuAdmin } from '../../data/headerData';
@@ -9,10 +9,24 @@ import SearchBar from './SearchBar';
 
 const Header = () => {
 
-    const { formUserInfo, toggleForm, toggleSearch, userLogout, userRole } = useContext(commonContext);
+    const { userName, userRole, toggleForm, toggleSearch, userLogout } = useContext(commonContext);
     const { cartItems } = useContext(cartContext);
     const [isSticky, setIsSticky] = useState(false);
 
+    const isUserRole = useMemo(() => userRole === 'USER', [userRole]);
+    const isAdminRole = useMemo(() => userRole === 'ADMIN', [userRole]);
+
+    const dropdownMenu = useMemo(() => {
+        const menu = isUserRole ? dropdownMenuUser : isAdminRole ? dropdownMenuAdmin : [];
+        return menu.map((item) => {
+            const { id, link, path } = item;
+            return (
+                <li key={id}>
+                    <Link to={path}>{link}</Link>
+                </li>
+            );
+        });
+    }, [isUserRole, isAdminRole]);
 
     // handle the sticky-header
     useEffect(() => {
@@ -35,7 +49,7 @@ const Header = () => {
                 <div className="container">
                     <div className="navbar">
                         <h2 className="nav_logo">
-                            <Link to="/">X-Sonic</Link>
+                            <Link to="/">XSonic</Link>
                         </h2>
                         <nav className="nav_actions">
                             <div className="search_action">
@@ -59,13 +73,13 @@ const Header = () => {
 
                             <div className="user_action">
                                 <span>
-                                    {formUserInfo ? <AiOutlineSmile/> : <AiOutlineUser/>}
+                                    {userName ? <AiOutlineSmile/> : <AiOutlineUser/>}
                                 </span>
                                 <div className="dropdown_menu">
-                                    <h4>Hello! {formUserInfo && <Link to="*">&nbsp;{formUserInfo}</Link>}</h4>
-                                    {formUserInfo && <p>Access account and manage orders</p>}
+                                    <h4>Hello! {userName && <Link to="*">&nbsp;{userName}</Link>}</h4>
+                                    {userName && <p>Access account and manage orders</p>}
                                     {
-                                        !formUserInfo ? (
+                                        !userName ? (
                                             <button
                                                 type="button"
                                                 onClick={() => toggleForm(true)}
@@ -81,27 +95,9 @@ const Header = () => {
                                             </button>
                                         )
                                     }
-                                    {formUserInfo && <div className="separator"></div>}
+                                    {userName && <div className="separator"></div>}
                                     <ul>
-                                        {formUserInfo && userRole() === "USER" &&
-                                            dropdownMenuUser.map(item => {
-                                                const { id, link, path } = item;
-                                                return (
-                                                    <li key={id}>
-                                                        <Link to={path}>{link}</Link>
-                                                    </li>
-                                                );
-                                            })}
-                                        {formUserInfo && userRole() === "ADMIN" &&
-                                            dropdownMenuAdmin.map(item => {
-                                                const { id, link, path } = item;
-                                                return (
-                                                    <li key={id}>
-                                                        <Link to={path}>{link}</Link>
-                                                    </li>
-                                                );
-                                            })
-                                        }
+                                        {userName && dropdownMenu}
                                     </ul>
                                 </div>
                             </div>

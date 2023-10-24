@@ -1,4 +1,4 @@
-import { createContext, useReducer, useState, useEffect } from 'react';
+import { createContext, useReducer } from 'react';
 import commonReducer from './commonReducer';
 
 // Common-Context
@@ -7,10 +7,9 @@ const commonContext = createContext();
 // Initial State
 const initialState = {
     user: null,
-    userIsAuthenticated: false,
-    userRole: false,
+    userName: '',
+    userRole: '',
     isFormOpen: false,
-    formUserInfo: '',
     isFormProductOpen: false,
     isSearchOpen: false,
     searchResults: [],
@@ -20,48 +19,24 @@ const initialState = {
 const CommonProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(commonReducer, initialState);
-    const [user, setUser] = useState(null)
 
-    useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem('user'))
-        setUser(storedUser)
-    }, [])
-
-    const getUser = () => {
-        return JSON.parse(localStorage.getItem('user'))
-    }
-
-    const userRole = () => {
-        let storedUser = localStorage.getItem('user')
-        if (!storedUser) {
-          return false
-        }
-        storedUser = JSON.parse(storedUser);
-
-        return storedUser.data.role
-    }
-
-    const userIsAuthenticated = () => {
-        let storedUser = localStorage.getItem('user')
-        if (!storedUser) {
-          return false
-        }
-        storedUser = JSON.parse(storedUser)
-
-        // if user has token expired, logout user
-        if (Date.now() > storedUser.data.exp * 1000) {
-          userLogout()
-          return false
-        }
-        return true
-    }
-
+    // User login action
     const userLogin = user => {
         localStorage.setItem('user', JSON.stringify(user))
-        setUser(user)
-        const loggedUserInfo = user.data.sub.split('@')[0].toUpperCase();
-        setFormUserInfo(loggedUserInfo)
+        return dispatch({
+            type: 'USER_LOGIN',
+            payload: {user}
+        });
     }
+
+    // User logout action
+    const userLogout = () => {
+        localStorage.removeItem('user')
+        return dispatch({
+            type: 'USER_LOGOUT'//,
+            //payload: {}
+        });
+    };
 
     // Form login actions
     const toggleForm = (toggle) => {
@@ -77,15 +52,6 @@ const CommonProvider = ({ children }) => {
             payload: { info }
         });
     };
-
-     const userLogout = () => {
-         localStorage.removeItem('user')
-         return dispatch({
-             type: 'LOGOUT',
-             payload: {  }
-         });
-
-     };
 
    // Form product actions
     const toggleFormProduct = (toggle) => {
@@ -110,6 +76,7 @@ const CommonProvider = ({ children }) => {
         });
     };
 
+
     // Context values
     const values = {
         ...state,
@@ -118,10 +85,6 @@ const CommonProvider = ({ children }) => {
         setFormUserInfo,
         toggleSearch,
         setSearchResults,
-        user,
-        userRole,
-        getUser,
-        userIsAuthenticated,
         userLogin,
         userLogout
     };

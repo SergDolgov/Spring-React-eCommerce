@@ -11,7 +11,7 @@ import ProductForm from '../components/form/ProductForm';
 const AllProducts = () => {
     useDocTitle('All Products');
 
-    const { toggleFormProduct, getUser } = useContext(commonContext);
+    const { toggleFormProduct } = useContext(commonContext);
 
     const { allProducts } = useContext(filtersContext);
     const [selectedProduct, setSelectedProduct] = useState({});

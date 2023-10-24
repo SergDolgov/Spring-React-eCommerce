@@ -5,7 +5,7 @@ import { parseJwt, handleLogError } from '../helpers/utils'
 
 const useForm = () => {
 
-    const { toggleForm, setFormUserInfo, userLogin } = useContext(commonContext);
+    const { toggleForm, userLogin } = useContext(commonContext);
     const [inputValues, setInputValues] = useState({});
     const [isError, setIsError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
@@ -24,58 +24,90 @@ const useForm = () => {
 
     // handling form-submission
     const handleFormSubmit = async (e) => {
-        const loggedUserInfo = inputValues.email.split('@')[0].toUpperCase();
+        !inputValues.username ? handleUserLogin(e):handleUserRegistration(e)
+    }
 
-        e.preventDefault();
+    // handling user login
+    const handleUserLogin = async (e) => {
+       e.preventDefault();
 
-        let user = !inputValues.username ?
-            {
-                email: inputValues.email,
-                password: inputValues.password
-            }:
-            {
-                firstName: inputValues.username,
-                lastName: inputValues.username,
-                email: inputValues.email,
-                password: inputValues.password,
-                password2: inputValues.conf_password,
-                captcha: "captcha"
-            }
+       const user = {
+           email: inputValues.email,
+           password: inputValues.password
+       };
 
-        try {
-          const response = (inputValues.username === undefined) ? await productApi.login(user): await productApi.registration(user)
+       try {
+           const response = await productApi.login(user);
+           const { token } = response.data;
+           const data = parseJwt(token);
+           const authenticatedUser = { data, token };
 
-          const { token } = response.data
-          const data = parseJwt(token)
-          const authenticatedUser = { data, token }
+           handleSuccessfulLogin(authenticatedUser);
+       } catch (error) {
+           handleLoginError(error);
+       }
+    };
 
-          setFormUserInfo(loggedUserInfo);
-          userLogin(authenticatedUser);
+    // handling user registration
+    const handleUserRegistration = async (e) => {
+       e.preventDefault();
 
-          setInputValues({});
-          toggleForm(false);
-          //alert(`Hello ${loggedUserInfo}, you're successfully logged-in.`);
+       const user = {
+           firstName: inputValues.username,
+           lastName: '',
+           email: inputValues.email,
+           password: inputValues.password,
+           password2: inputValues.conf_password,
+           captcha: "captcha"
+       };
 
-          setIsError(false)
-          setErrorMessage('')
-        } catch (error) {
-          handleLogError(error)
-          if (error.response && error.response.data) {
-            const errorData = error.response.data
-            let errorMessage = 'Invalid fields'
-            if (error.response.status === 409) {
-              errorMessage = errorData.message
-            } else if (error.response.status === 400) {
-              errorMessage = errorData.emailError
-            } else if (error.response.status === 404) {
-              errorMessage = errorData
-            }
+       try {
+           const response = await productApi.registration(user);
+           const { token } = response.data;
+           const data = parseJwt(token);
+           const authenticatedUser = { data, token };
 
-            setIsError(true)
-            setErrorMessage(errorMessage)
-          }
-        }
+           handleSuccessfulLogin(authenticatedUser);
+       } catch (error) {
+           handleRegistrationError(error);
+       }
+    };
 
+    // handling general function to access user
+    const handleSuccessfulLogin = (authenticatedUser) => {
+
+       userLogin(authenticatedUser);
+
+       setInputValues({});
+       toggleForm(false);
+       setIsError(false);
+       setErrorMessage('');
+       // alert(`Hello ${loggedUserInfo}, you're successfully logged-in.`);
+    };
+
+    //handling login errors
+    const handleLoginError = (error) => {
+       handleLogError(error);
+       if (error.response && error.response.data) {
+           const errorMessage = error.response.data;
+           setIsError(true);
+           setErrorMessage(errorMessage);
+       }
+    };
+
+    // handling registration errors
+    const handleRegistrationError = (error) => {
+       handleLogError(error);
+       if (error.response && error.response.data) {
+           const errorData = error.response.data;
+           let errorMessage = 'Invalid fields'
+           if (error.response.status === 400) {
+               errorMessage = errorData.passwordError ? errorData.passwordError : errorData.password2Error ? errorData.password2Error : errorData.emailError
+           }
+
+           setIsError(true);
+           setErrorMessage(errorMessage);
+       }
     };
 
     return { inputValues, handleInputValues, handleFormSubmit, isError, errorMessage};

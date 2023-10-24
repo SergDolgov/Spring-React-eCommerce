@@ -3,6 +3,7 @@ package com.letsanjoy.xsonic.constants;
 public class ErrorMessage {
     public static final String INVALID_JWT_TOKEN = "JWT token is expired or invalid";
     public static final String EMAIL_NOT_FOUND = "Email not found";
+    public static final String EMAIL_NOT_ACTIVATED = "Email not activated";
     public static final String INCORRECT_PASSWORD = "Incorrect password or email";
     public static final String PASSWORDS_DO_NOT_MATCH = "Passwords do not match.";
     public static final String EMAIL_IN_USE = "Email is already in use.";

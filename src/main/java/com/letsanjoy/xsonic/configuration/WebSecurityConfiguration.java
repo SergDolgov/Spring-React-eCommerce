@@ -50,8 +50,8 @@ public class WebSecurityConfiguration {
                                 antMatcher("/api/v1/user/orders"),
                                 antMatcher("/api/v1/user/addresses")).hasAnyAuthority(USER)
                         .requestMatchers(
-                                antMatcher("/api/v1/user/products"),
-                                antMatcher("/api/v1/user/users")).hasAnyAuthority(ADMIN)
+                                antMatcher("/api/v1/admin/products"),
+                                antMatcher("/api/v1/admin/users")).hasAnyAuthority(ADMIN)
                         .requestMatchers(
                                 antMatcher("/auth/**"),
                                 antMatcher("/oauth2/**")).permitAll()

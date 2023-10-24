@@ -18,7 +18,7 @@ const commonReducer = (state, action) => {
         case 'SET_FORM_USER_INFO':
             return {
                 ...state,
-                formUserInfo: action.payload.info
+                userName: action.payload.info
             };
 
 
@@ -42,10 +42,23 @@ const commonReducer = (state, action) => {
                 searchResults: action.payload.results
             };
 
-        case 'LOGOUT':
+
+        case 'USER_LOGIN':
+            const newUser = action.payload.user
             return {
                 ...state,
-                formUserInfo: action.payload.info
+                user: newUser,
+                userName: newUser.data.sub.split('@')[0].toUpperCase(),
+                userRole: newUser.data.role
+            };
+
+
+        case 'USER_LOGOUT':
+            return {
+                ...state,
+                user: null,
+                userName: '',
+                userRole: ''
             };
 
 

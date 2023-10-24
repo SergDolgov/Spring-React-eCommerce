@@ -16,9 +16,12 @@ import com.letsanjoy.xsonic.service.AuthenticationService;
 import com.letsanjoy.xsonic.service.email.MailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,7 +38,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    //private final AuthenticationManager authenticationManager;
     private final RestTemplate restTemplate;
     private final MailSender mailSender;
     private final TokenProvider tokenProvider;
@@ -51,21 +53,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Value("${recaptcha.url}")
     private String captchaUrl;
 
+
     @Override
     public Map<String, Object> login(String email, String password) {
-        try {
-            //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-            User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new ApiRequestException(ErrorMessage.EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
-            String userRole = user.getRoles().iterator().next().name();
-            String token = tokenProvider.generate(email, userRole);
-            Map<String, Object> response = new HashMap<>();
-            response.put("user", user);
-            response.put("token", token);
-            return response;
-        } catch (AuthenticationException e) {
-            throw new ApiRequestException(ErrorMessage.INCORRECT_PASSWORD, HttpStatus.FORBIDDEN);
-        }
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ApiRequestException(ErrorMessage.EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
+        String userRole = user.getRoles().iterator().next().name();
+        String token = tokenProvider.generate(email, userRole);
+        Map<String, Object> response = new HashMap<>();
+        response.put("user", user);
+        response.put("token", token);
+
+        return response;
+
     }
 
     @Override

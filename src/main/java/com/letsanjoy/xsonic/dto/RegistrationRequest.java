@@ -17,7 +17,7 @@ public class RegistrationRequest {
     @NotBlank(message = EMPTY_FIRST_NAME)
     private String firstName;
 
-    @NotBlank(message = EMPTY_LAST_NAME)
+    //@NotBlank(message = EMPTY_LAST_NAME)
     private String lastName;
 
     @Size(min = 6, max = 16, message = PASSWORD_CHARACTER_LENGTH)
