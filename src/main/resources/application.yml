@@ -71,8 +71,10 @@ logging:
     org.springframework.security: DEBUG
     org.hibernate.SQL: DEBUG
 
+emailConfirmation: false
+
 mail:
-  debug: true
+  debug: false
 
 server:
   port: 8888

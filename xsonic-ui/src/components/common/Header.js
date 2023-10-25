@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import { AiOutlineSearch, AiOutlineShoppingCart, AiOutlineUser, AiOutlineSmile } from 'react-icons/ai';
 import { dropdownMenuUser, dropdownMenuAdmin } from '../../data/headerData';
 import commonContext from '../../contexts/common/commonContext';
@@ -8,6 +8,8 @@ import AccountForm from '../form/AccountForm';
 import SearchBar from './SearchBar';
 
 const Header = () => {
+
+    const navigate = useNavigate();
 
     const { userName, userRole, toggleForm, toggleSearch, userLogout } = useContext(commonContext);
     const { cartItems } = useContext(cartContext);
@@ -27,6 +29,13 @@ const Header = () => {
             );
         });
     }, [isUserRole, isAdminRole]);
+
+
+    const handleUserLogout = ()=>{
+        userLogout()
+        navigate('/')
+    }
+
 
     // handle the sticky-header
     useEffect(() => {
@@ -89,7 +98,7 @@ const Header = () => {
                                         ):(
                                             <button
                                                 type="button"
-                                                onClick={() => userLogout()}
+                                                onClick={() => handleUserLogout()}
                                             >
                                                 Logout
                                             </button>

@@ -11,7 +11,7 @@ const useForm = () => {
     const [errorMessage, setErrorMessage] = useState('')
 
     // handling input-values
-    const handleInputValues = (e) => {
+    const handleChangeInputValues = (e) => {
         const { name, value } = e.target;
 
         setInputValues((prevValues) => {
@@ -24,12 +24,12 @@ const useForm = () => {
 
     // handling form-submission
     const handleFormSubmit = async (e) => {
-        !inputValues.username ? handleUserLogin(e):handleUserRegistration(e)
+       e.preventDefault();
+       !inputValues.username ? handleUserLogin(e):handleUserRegistration(e)
     }
 
     // handling user login
     const handleUserLogin = async (e) => {
-       e.preventDefault();
 
        const user = {
            email: inputValues.email,
@@ -50,7 +50,6 @@ const useForm = () => {
 
     // handling user registration
     const handleUserRegistration = async (e) => {
-       e.preventDefault();
 
        const user = {
            firstName: inputValues.username,
@@ -110,7 +109,7 @@ const useForm = () => {
        }
     };
 
-    return { inputValues, handleInputValues, handleFormSubmit, isError, errorMessage};
+    return { inputValues, handleChangeInputValues, setInputValues, handleFormSubmit, isError, errorMessage};
 };
 
 export default useForm;

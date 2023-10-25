@@ -11,7 +11,7 @@ const commonReducer = (state, action) => {
         case 'TOGGLE_FORM_PRODUCT':
             return {
                 ...state,
-                isFormProductOpen: action.payload.toggle
+                isProductFormOpen: action.payload.toggle
             };
 
 

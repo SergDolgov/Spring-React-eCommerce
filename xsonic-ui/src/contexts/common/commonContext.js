@@ -10,7 +10,7 @@ const initialState = {
     userName: '',
     userRole: '',
     isFormOpen: false,
-    isFormProductOpen: false,
+    isProductFormOpen: false,
     isSearchOpen: false,
     searchResults: [],
 };
@@ -54,7 +54,7 @@ const CommonProvider = ({ children }) => {
     };
 
    // Form product actions
-    const toggleFormProduct = (toggle) => {
+    const toggleProductForm = (toggle) => {
         return dispatch({
             type: 'TOGGLE_FORM_PRODUCT',
             payload: { toggle }
@@ -81,7 +81,7 @@ const CommonProvider = ({ children }) => {
     const values = {
         ...state,
         toggleForm,
-        toggleFormProduct,
+        toggleProductForm,
         setFormUserInfo,
         toggleSearch,
         setSearchResults,

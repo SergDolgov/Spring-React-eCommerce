@@ -13,9 +13,10 @@ export const productApi = {
   getProducts,
   getProductsCart,
   getBrands,
-  deleteProduct,
-  addProduct
-}
+  addProduct,
+  updateProduct,
+  deleteProduct
+ }
 
 function login(user) {
   return instance.post('/api/v1/auth/login', user, {
@@ -98,9 +99,18 @@ function deleteProduct(user, id) {
 }
 
 function addProduct(user, product) {
-  return instance.post('/api/v1/products', product, {
+  return instance.post('/api/v1/admin/add', product, {
     headers: {
-      'Content-type': 'application/json',
+      'Content-type': "multipart/form-data",//'application/json',
+      'Authorization': bearerAuth(user)
+    }
+  })
+}
+
+function updateProduct(user, product) {
+  return instance.post('/api/v1/admin/update', product, {
+    headers: {
+      'Content-type': "multipart/form-data",//'application/json',
       'Authorization': bearerAuth(user)
     }
   })
@@ -146,5 +156,5 @@ instance.interceptors.request.use(function (config) {
 // -- Helper functions
 
 function bearerAuth(user) {
-  return `Bearer ${user.accessToken}`
+  return `Bearer ${user.token}`
 }

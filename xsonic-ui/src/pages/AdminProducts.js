@@ -11,26 +11,26 @@ import ProductForm from '../components/form/ProductForm';
 const AllProducts = () => {
     useDocTitle('All Products');
 
-    const { toggleFormProduct } = useContext(commonContext);
+    const { toggleProductForm } = useContext(commonContext);
 
     const { allProducts } = useContext(filtersContext);
     const [selectedProduct, setSelectedProduct] = useState({});
 
     const handleAddProduct = () => {
         setSelectedProduct({});
-        toggleFormProduct(true)
+        toggleProductForm(true)
     };
 
-    const handleEditProduct = () => {
+    const handleUpdateProduct = () => {
         if (selectedProduct != null) {
-            toggleFormProduct(true)
+            toggleProductForm(true)
         }
     };
 
     const handleCopyProduct = () => {
         if (selectedProduct != null) {
-            setSelectedProduct({ ...selectedProduct, ['id']: 0 });
-            toggleFormProduct(true)
+            setSelectedProduct({ ...selectedProduct, id: 0 });
+            toggleProductForm(true)
         }
     };
 
@@ -50,7 +50,7 @@ const AllProducts = () => {
                     <div className="actions">
                         <BsPlusSquare onClick={handleAddProduct} className="action-icon" />
                         <BsFiles  onClick={handleCopyProduct} className="action-icon" />
-                        <BsPencilSquare onClick={handleEditProduct} className="action-icon" />
+                        <BsPencilSquare onClick={handleUpdateProduct} className="action-icon" />
                         <BsTrash onClick={handleDeleteProduct} className="action-icon" />
                     </div>
                     {allProducts.length ? (

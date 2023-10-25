@@ -8,7 +8,7 @@ import {getSocialLoginUrl} from '../../helpers/utils';
 const AccountForm = () => {
 
     const { isFormOpen, toggleForm } = useContext(commonContext);
-    const { inputValues, handleInputValues, handleFormSubmit, isError, errorMessage } = useForm();
+    const { inputValues, handleChangeInputValues, handleFormSubmit, isError, errorMessage } = useForm();
 
     const formRef = useRef();
 
@@ -57,7 +57,7 @@ const AccountForm = () => {
                                                     name="username"
                                                     className="input_field"
                                                     value={inputValues.username || ''}
-                                                    onChange={handleInputValues}
+                                                    onChange={handleChangeInputValues}
                                                     required
                                                 />
                                                 <label className="input_label">Username</label>
@@ -71,7 +71,7 @@ const AccountForm = () => {
                                             name="email"
                                             className="input_field"
                                             value={inputValues.email || ''}
-                                            onChange={handleInputValues}
+                                            onChange={handleChangeInputValues}
                                             required
                                         />
                                         <label className="input_label">Email</label>
@@ -83,7 +83,7 @@ const AccountForm = () => {
                                             name="password"
                                             className="input_field"
                                             value={inputValues.password || ''}
-                                            onChange={handleInputValues}
+                                            onChange={handleChangeInputValues}
                                             required
                                         />
                                         <label className="input_label">Password</label>
@@ -96,7 +96,7 @@ const AccountForm = () => {
                                                     name="conf_password"
                                                     className="input_field"
                                                     value={inputValues.conf_password || ''}
-                                                    onChange={handleInputValues}
+                                                    onChange={handleChangeInputValues}
                                                     required
                                                 />
                                                 <label className="input_label">Confirm Password</label>

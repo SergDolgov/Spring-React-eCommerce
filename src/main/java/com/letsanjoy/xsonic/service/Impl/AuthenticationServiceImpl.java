@@ -53,6 +53,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Value("${recaptcha.url}")
     private String captchaUrl;
 
+    @Value("${emailConfirmation}")
+    private boolean emailConfirmation;
 
     @Override
     public Map<String, Object> login(String email, String password) {
@@ -81,17 +83,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new EmailException(ErrorMessage.EMAIL_IN_USE);
         }
-        //if need confirm by email
-        //user.setActive(false);
-        user.setActive(true);
+
+        if (emailConfirmation) {
+            user.setActive(false);
+            user.setActivationCode(UUID.randomUUID().toString());
+        }
+        else {
+            user.setActive(true);
+        }
+
         user.setRoles(Collections.singleton(Role.USER));
         user.setProvider(OAuth2Provider.LOCAL);
-        user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
-        //if need confirm by email
-        //sendEmail(user, "Activation code", "registration-template", "registrationUrl", "/activate/" + user.getActivationCode());
+        if (emailConfirmation) {
+            sendEmail(user, "Activation code", "registration-template", "registrationUrl", "/activate/" + user.getActivationCode());
+        }
+
         return "User successfully registered.";
     }
 

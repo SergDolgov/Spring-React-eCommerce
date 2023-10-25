@@ -44,7 +44,7 @@ public class AdminController {
         return ResponseEntity.ok(productMapper.saveProduct(product, file, bindingResult));
     }
 
-    @PostMapping(PathConstants.EDIT)
+    @PostMapping(PathConstants.UPDATE)
     public ResponseEntity<FullProductResponse> updateProduct(@RequestPart(name = "file", required = false) MultipartFile file,
                                                              @RequestPart("product") @Valid ProductRequest product,
                                                              BindingResult bindingResult) {
