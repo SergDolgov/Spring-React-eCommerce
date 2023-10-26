@@ -20,9 +20,9 @@ public interface ProductService {
 
     Page<ProductProjection> findProductsByFilterParams(ProductSearchRequest filter, Pageable pageable);
 
-    List<Product> findByPoducer(String poducer);
+    List<Product> findByBrand(String brand);
 
-    List<Product> findByProductGender(String productGender);
+    List<Product> findByConnectivity(String connectivity);
     
     Page<ProductProjection> findByInputText(SearchProduct searchType, String text, Pageable pageable);
 

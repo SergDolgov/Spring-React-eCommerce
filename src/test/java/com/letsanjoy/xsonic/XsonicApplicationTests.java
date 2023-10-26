@@ -10,4 +10,8 @@ class XsonicApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	public void main() {
+	XsonicApplication.main(new String[] {});
+	}
 }

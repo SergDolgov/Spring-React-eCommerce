@@ -19,7 +19,7 @@ public class PathConstants {
     public static final String API_V1_USERS = API_V1 + "/users";
 
     public static final String ADD = "/add";
-    public static final String UPDATE = "/updtae";
+    public static final String UPDATE = "/update";
     public static final String CART = "/cart";
     public static final String DELETE_BY_PRODUCT_ID = "/delete/{productId}";
     public static final String ORDER_BY_EMAIL = ORDER + "/{userEmail}";
@@ -37,7 +37,7 @@ public class PathConstants {
     public static final String CODE = "/{code}";
     public static final String RESET_CODE = RESET + CODE;
     public static final String ACTIVATE_CODE = "/activate" + CODE;
-    public static final String EDIT_PASSWORD = "/edit/password";
+    public static final String UPDATE_PASSWORD = "/update/password";
 
     public static final String ORDER_ID = "/{orderId}";
     public static final String ORDER_ID_ITEMS = ORDER_ID + "/items";
@@ -45,8 +45,8 @@ public class PathConstants {
     public static final String PRODUCT_ID = "/{productId}";
     public static final String IDS = "/ids";
     public static final String SEARCH = "/search";
-    public static final String SEARCH_GENDER = SEARCH + "/gender";
-    public static final String SEARCH_PRODUCER = SEARCH + "/poducer";
+    public static final String SEARCH_CONNECTIVITY = SEARCH + "/connectivity";
+    public static final String SEARCH_BRAND = SEARCH + "/brand";
     public static final String SEARCH_TEXT = SEARCH + "/text";
     public static final String GRAPHQL_IDS = GRAPHQL + IDS;
     public static final String GRAPHQL_PRODUCTS = GRAPHQL + PRODUCTS;

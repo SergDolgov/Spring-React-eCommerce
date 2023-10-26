@@ -44,12 +44,12 @@ public class ProductMapper {
         return commonMapper.getHeaderResponse(products.getContent(), products.getTotalPages(), products.getTotalElements(), ProductResponse.class);
     }
 
-    public List<ProductResponse> findByPoducer(String poducer) {
-        return commonMapper.convertToResponseList(productService.findByPoducer(poducer), ProductResponse.class);
+    public List<ProductResponse> findByBrand(String brand) {
+        return commonMapper.convertToResponseList(productService.findByBrand(brand), ProductResponse.class);
     }
 
-    public List<ProductResponse> findByProductGender(String productGender) {
-        return commonMapper.convertToResponseList(productService.findByProductGender(productGender), ProductResponse.class);
+    public List<ProductResponse> findByConnectivity(String connectivity) {
+        return commonMapper.convertToResponseList(productService.findByConnectivity(connectivity), ProductResponse.class);
     }
     
     public HeaderResponse<ProductResponse> findByInputText(SearchProduct searchType, String text, Pageable pageable) {

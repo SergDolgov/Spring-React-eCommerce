@@ -121,6 +121,17 @@ const ProductForm = ({selectedProduct, onSaveProduct}) => {
                                     </div>
                                     <div className="input_box">
                                         <input
+                                            type="originalPrice"
+                                            name="originalPrice"
+                                            className="input_field"
+                                            value={inputValues.originalPrice || ''}
+                                            onChange={handleChangeInputValues}
+                                            required
+                                        />
+                                        <label className="input_label">OriginalPrice</label>
+                                    </div>
+                                    <div className="input_box">
+                                        <input
                                             type="finalPrice"
                                             name="finalPrice"
                                             className="input_field"
@@ -129,6 +140,17 @@ const ProductForm = ({selectedProduct, onSaveProduct}) => {
                                             required
                                         />
                                         <label className="input_label">FinalPrice</label>
+                                    </div>
+                                    <div className="input_box">
+                                        <input
+                                            type="quantity"
+                                            name="quantity"
+                                            className="input_field"
+                                            value={inputValues.quantity || ''}
+                                            onChange={handleChangeInputValues}
+                                            required
+                                        />
+                                        <label className="input_label">Quantity</label>
                                     </div>
 
                                     {isError && <label style={{color: 'red'}}>{errorMessage}</label>}

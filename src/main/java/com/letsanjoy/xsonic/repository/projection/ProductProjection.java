@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Value;
 
 public interface ProductProjection {
     Long getId();
-    String getProductTitle();
-    String getPoducer();
+    String getTitle();
+    String getBrand();
     Integer getPrice();
     String getFilename();
-    Double getProductRating();
+    Double getRatings();
     
     @Value("#{target.reviews.size()}")
     Integer getReviewsCount();
 
-    void setPoducer(String poducer);
-    void setProductGender(String productGender);
+    void setBrand(String brand);
+    void setConnectivity(String connectivity);
     void setPrice(Integer price);
 }

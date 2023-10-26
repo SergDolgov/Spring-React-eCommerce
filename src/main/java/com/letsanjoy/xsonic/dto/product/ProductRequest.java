@@ -16,43 +16,42 @@ public class ProductRequest {
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     @Length(max = 255)
-    private String productTitle;
+    private String title;
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     @Length(max = 255)
-    private String poducer;
+    private String brand;
 
     @NotNull(message = FILL_IN_THE_INPUT_FIELD)
-    private Integer year;
+    private Integer rateCount;
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     @Length(max = 255)
-    private String country;
+    private String category;
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     @Length(max = 255)
-    private String productGender;
+    private String connectivity;
 
-    @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
-    @Length(max = 255)
-    private String fragranceTopNotes;
-
-    @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
-    @Length(max = 255)
-    private String fragranceMiddleNotes;
-
-    @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
-    @Length(max = 255)
-    private String fragranceBaseNotes;
-
-    @NotNull(message = FILL_IN_THE_INPUT_FIELD)
+    //@NotNull(message = FILL_IN_THE_INPUT_FIELD)
     private Integer price;
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     @Length(max = 255)
-    private String volume;
+    private String info;
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     @Length(max = 255)
     private String type;
+
+    @NotNull(message = FILL_IN_THE_INPUT_FIELD)
+    private Integer finalPrice;
+
+    @NotNull(message = FILL_IN_THE_INPUT_FIELD)
+    private Integer originalPrice;
+
+    @NotNull(message = FILL_IN_THE_INPUT_FIELD)
+    private Integer quantity;
+
+
 }

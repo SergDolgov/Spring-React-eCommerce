@@ -9,17 +9,17 @@ INSERT INTO orders (id, address, city, date, email, first_name, last_name, phone
 INSERT INTO orders (id, address, city, date, email, first_name, last_name, phone_number, post_index, total_price)
     VALUES (5, 'Tverskaya street 1', 'Moscow', '2021-04-07', 'ivan123@test.com', 'Ivan', 'Ivanov', '1234567890', 1234567890, 196);
 
-INSERT INTO order_item (id, amount, quantity, product_id) VALUES (1, 384, 2, 33);
-INSERT INTO order_item (id, amount, quantity, product_id) VALUES (2, 456, 3, 34);
-INSERT INTO order_item (id, amount, quantity, product_id) VALUES (3, 178, 2, 39);
-INSERT INTO order_item (id, amount, quantity, product_id) VALUES (4, 62, 1, 43);
-INSERT INTO order_item (id, amount, quantity, product_id) VALUES (5, 63, 1, 77);
-INSERT INTO order_item (id, amount, quantity, product_id) VALUES (6, 41, 1, 85);
-INSERT INTO order_item (id, amount, quantity, product_id) VALUES (7, 59, 1, 108);
+INSERT INTO order_item (id, amount, quantity, product_id) VALUES (1, 384, 2, 3);
+INSERT INTO order_item (id, amount, quantity, product_id) VALUES (2, 456, 3, 4);
+INSERT INTO order_item (id, amount, quantity, product_id) VALUES (3, 178, 2, 9);
+INSERT INTO order_item (id, amount, quantity, product_id) VALUES (4, 62, 1, 13);
+INSERT INTO order_item (id, amount, quantity, product_id) VALUES (5, 63, 1, 17);
+INSERT INTO order_item (id, amount, quantity, product_id) VALUES (6, 41, 1, 15);
+INSERT INTO order_item (id, amount, quantity, product_id) VALUES (7, 59, 1, 10);
 INSERT INTO order_item (id, amount, quantity, product_id) VALUES (8, 96, 2, 16);
-INSERT INTO order_item (id, amount, quantity, product_id) VALUES (9, 684, 4, 17);
-INSERT INTO order_item (id, amount, quantity, product_id) VALUES (10, 92, 2, 86);
-INSERT INTO order_item (id, amount, quantity, product_id) VALUES (11, 104, 2, 91);
+INSERT INTO order_item (id, amount, quantity, product_id) VALUES (9, 684, 4, 11);
+INSERT INTO order_item (id, amount, quantity, product_id) VALUES (10, 92, 2, 8);
+INSERT INTO order_item (id, amount, quantity, product_id) VALUES (11, 104, 2, 1);
 
 INSERT INTO orders_order_items (order_id, order_items_id) VALUES (1, 1);
 INSERT INTO orders_order_items (order_id, order_items_id) VALUES (1, 2);

@@ -64,7 +64,9 @@ const AllProducts = () => {
                                     <th>Category</th>
                                     <th>Type</th>
                                     <th>Connectivity</th>
-                                    <th>Price</th>
+                                    <th>OriginalPrice</th>
+                                    <th>FinalPrice</th>
+                                    <th>Quantity</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,7 +83,9 @@ const AllProducts = () => {
                                         <td>{item.category}</td>
                                         <td>{item.type}</td>
                                         <td>{item.connectivity}</td>
+                                        <td>${item.originalPrice}</td>
                                         <td>${item.finalPrice}</td>
+                                        <td>${item.quantity}</td>
                                     </tr>
                                 ))}
                             </tbody>

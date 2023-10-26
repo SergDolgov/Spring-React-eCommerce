@@ -21,29 +21,29 @@ public class Product {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "product_title")
-    private String productTitle;
+    @Column(name = "title")
+    private String title;
 
-    @Column(name = "poducer")
-    private String poducer;
+    @Column(name = "brand")
+    private String brand;
 
-    @Column(name = "year")
-    private Integer year;
+    @Column(name = "rate_count")
+    private Integer rateCount;
     
-    @Column(name = "country")
-    private String country;
+    @Column(name = "category")
+    private String category;
 
-    @Column(name = "product_gender")
-    private String productGender;
+    @Column(name = "connectivity")
+    private String connectivity;
 
-    @Column(name = "fragrance_top_notes")
-    private String fragranceTopNotes;
+    @Column(name = "final_price")
+    private Integer finalPrice;
 
-    @Column(name = "fragrance_middle_notes")
-    private String fragranceMiddleNotes;
+    @Column(name = "original_price")
+    private Integer originalPrice;
     
-    @Column(name = "fragrance_base_notes")
-    private String fragranceBaseNotes;
+    @Column(name = "quantity")
+    private Integer quantity;
 
     @Column(name = "description")
     private String description;
@@ -54,14 +54,14 @@ public class Product {
     @Column(name = "price")
     private Integer price;
     
-    @Column(name = "volume")
-    private String volume;
+    @Column(name = "info")
+    private String info;
     
     @Column(name = "type")
     private String type;
     
-    @Column(name = "product_rating")
-    private Double productRating;
+    @Column(name = "ratings")
+    private Double ratings;
 
     @OneToMany
     @ToString.Exclude

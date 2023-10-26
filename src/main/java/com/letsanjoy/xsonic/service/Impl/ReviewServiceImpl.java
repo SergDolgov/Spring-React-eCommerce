@@ -37,7 +37,7 @@ public class ReviewServiceImpl implements ReviewService {
         reviews.add(review);
         double totalReviews = reviews.size();
         double sumRating = reviews.stream().mapToInt(Review::getRating).sum();
-        product.setProductRating(sumRating / totalReviews);
+        product.setRatings(sumRating / totalReviews);
         return reviewRepository.save(review);
     }
 }

@@ -64,12 +64,12 @@
                                  th:src="@{{path} (path = ${orderItem.getProduct().getFilename()})}"/>
                         </td>
                         <td style="width: 179px;" class="content">
-                            <p><b th:text="${orderItem.getProduct().getProducer()}"></b><br/>
+                            <p><b th:text="${orderItem.getProduct().getBrand()}"></b><br/>
                                 <span style="font-size: 14px">
-                                    <span th:text="${orderItem.getProduct().getProductTitle()}"
+                                    <span th:text="${orderItem.getProduct().getTitle()}"
                                           th:remove="tag"></span><br/>
                             <span th:text="${orderItem.getProduct().getType()}" th:remove="tag"></span><br/>
-                            <span th:text="${orderItem.getProduct().getVolume()}" th:remove="tag"></span> ml.</span>
+                            <span th:text="${orderItem.getProduct().getInfo()}" th:remove="tag"></span> ml.</span>
                             </p>
                         </td>
                         <td style="width: 54px;" class="content">

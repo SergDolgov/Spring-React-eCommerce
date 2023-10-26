@@ -43,14 +43,14 @@ public class ProductController {
         return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 
-    @PostMapping(PathConstants.SEARCH_GENDER)
-    public ResponseEntity<List<ProductResponse>> findByProductGender(@RequestBody ProductSearchRequest filter) {
-        return ResponseEntity.ok(productMapper.findByProductGender(filter.getProductGender()));
+    @PostMapping(PathConstants.SEARCH_CONNECTIVITY)
+    public ResponseEntity<List<ProductResponse>> findByConnectivity(@RequestBody ProductSearchRequest filter) {
+        return ResponseEntity.ok(productMapper.findByConnectivity(filter.getConnectivity()));
     }
 
-    @PostMapping(PathConstants.SEARCH_PRODUCER)
-    public ResponseEntity<List<ProductResponse>> findByPoducer(@RequestBody ProductSearchRequest filter) {
-        return ResponseEntity.ok(productMapper.findByPoducer(filter.getPoducer()));
+    @PostMapping(PathConstants.SEARCH_BRAND)
+    public ResponseEntity<List<ProductResponse>> findByBrand(@RequestBody ProductSearchRequest filter) {
+        return ResponseEntity.ok(productMapper.findByBrand(filter.getBrand()));
     }
 
     @PostMapping(PathConstants.SEARCH_TEXT)

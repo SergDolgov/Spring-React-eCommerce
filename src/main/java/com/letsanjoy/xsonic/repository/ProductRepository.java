@@ -19,9 +19,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT product FROM Product product ORDER BY product.id ASC")
     Page<ProductProjection> findAllByOrderByIdAsc(Pageable pageable);
 
-    List<Product> findByPoducerOrderByPriceDesc(String poducer);
+    List<Product> findByBrandOrderByPriceDesc(String brand);
 
-    List<Product> findByProductGenderOrderByPriceDesc(String productGender);
+    List<Product> findByConnectivityOrderByPriceDesc(String connectivity);
 
     List<Product> findByIdIn(List<Long> productsIds);
 
@@ -29,30 +29,30 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<ProductProjection> getProductsByIds(List<Long> productsIds);
 
     @Query("SELECT product FROM Product product " +
-            "WHERE (coalesce(:poducers, null) IS NULL OR product.poducer IN :poducers) " +
-            "AND (coalesce(:genders, null) IS NULL OR product.productGender IN :genders) " +
+            "WHERE (coalesce(:brands, null) IS NULL OR product.brand IN :brands) " +
+            "AND (coalesce(:connectivities, null) IS NULL OR product.connectivity IN :connectivities) " +
             "AND (coalesce(:priceStart, null) IS NULL OR product.price BETWEEN :priceStart AND :priceEnd) " +
             "ORDER BY CASE WHEN :sortByPrice = true THEN product.price ELSE -product.price END ASC")
     Page<ProductProjection> findProductsByFilterParams(
-            List<String> poducers, 
-            List<String> genders, 
+            List<String> brands, 
+            List<String> connectivities, 
             Integer priceStart, 
             Integer priceEnd, 
             boolean sortByPrice,
             Pageable pageable);
 
     @Query("SELECT product FROM Product product " +
-            "WHERE UPPER(product.poducer) LIKE UPPER(CONCAT('%',:text,'%')) " +
+            "WHERE UPPER(product.brand) LIKE UPPER(CONCAT('%',:text,'%')) " +
             "ORDER BY product.price DESC")
-    Page<ProductProjection> findByPoducer(String text, Pageable pageable);
+    Page<ProductProjection> findByBrand(String text, Pageable pageable);
 
     @Query("SELECT product FROM Product product " +
-            "WHERE UPPER(product.productTitle) LIKE UPPER(CONCAT('%',:text,'%')) " +
+            "WHERE UPPER(product.title) LIKE UPPER(CONCAT('%',:text,'%')) " +
             "ORDER BY product.price DESC")
-    Page<ProductProjection> findByProductTitle(String text, Pageable pageable);
+    Page<ProductProjection> findByTitle(String text, Pageable pageable);
 
     @Query("SELECT product FROM Product product " +
-            "WHERE UPPER(product.country) LIKE UPPER(CONCAT('%',:text,'%')) " +
+            "WHERE UPPER(product.category) LIKE UPPER(CONCAT('%',:text,'%')) " +
             "ORDER BY product.price DESC")
-    Page<ProductProjection> findByManufacturerCountry(String text, Pageable pageable);
+    Page<ProductProjection> findByCategory(String text, Pageable pageable);
 }

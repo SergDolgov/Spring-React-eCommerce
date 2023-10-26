@@ -7,11 +7,11 @@ import lombok.Setter;
 @Setter
 public class ProductResponse {
     private Long id;
-    private String productTitle;
-    private String poducer;
+    private String title;
+    private String brand;
     private Integer price;
-    private Double productRating;
+    private Double ratings;
     private String filename;
     private Integer reviewsCount;
-    private String volume;
+    private String info;
 }

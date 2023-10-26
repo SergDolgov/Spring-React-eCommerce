@@ -35,21 +35,21 @@ create table orders_order_items
 
 create table product
 (
-    id                     int8 not null,
-    country                varchar(255),
-    description            varchar(255),
-    filename               varchar(255),
-    fragrance_base_notes   varchar(255),
-    fragrance_middle_notes varchar(255),
-    fragrance_top_notes    varchar(255),
-    product_gender         varchar(255),
-    product_title          varchar(255),
-    producer               varchar(255),
-    price                  int4,
-    type                   varchar(255),
-    volume                 varchar(255),
-    year                   int4,
-    product_rating         float8,
+    id              int8 not null,
+    category        varchar(255),
+    description     varchar(255),
+    filename        varchar(255),
+    quantity        int4,
+    original_price  int4,
+    final_price     int4,
+    connectivity    varchar(255),
+    title           varchar(255),
+    brand           varchar(255),
+    price           int4,
+    type            varchar(255),
+    info            varchar(255),
+    rate_count      int4,
+    ratings         float8,
     primary key (id)
 );
 

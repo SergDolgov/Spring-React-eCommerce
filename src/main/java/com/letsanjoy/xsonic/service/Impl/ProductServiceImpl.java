@@ -50,8 +50,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductProjection> findProductsByFilterParams(ProductSearchRequest filter, Pageable pageable) {
         return productRepository.findProductsByFilterParams(
-                filter.getPoducers(),
-                filter.getGenders(),
+                filter.getBrands(),
+                filter.getConnectivities(),
                 filter.getPrices().get(0),
                 filter.getPrices().get(1),
                 filter.getSortByPrice(),
@@ -59,23 +59,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findByPoducer(String poducer) {
-        return productRepository.findByPoducerOrderByPriceDesc(poducer);
+    public List<Product> findByBrand(String brand) {
+        return productRepository.findByBrandOrderByPriceDesc(brand);
     }
 
     @Override
-    public List<Product> findByProductGender(String productGender) {
-        return productRepository.findByProductGenderOrderByPriceDesc(productGender);
+    public List<Product> findByConnectivity(String connectivity) {
+        return productRepository.findByConnectivityOrderByPriceDesc(connectivity);
     }
 
     @Override
     public Page<ProductProjection> findByInputText(SearchProduct searchType, String text, Pageable pageable) {
         if (searchType.equals(SearchProduct.BRAND)) {
-            return productRepository.findByPoducer(text, pageable);
-        } else if (searchType.equals(SearchProduct.PRODUCT_TITLE)) {
-            return productRepository.findByProductTitle(text, pageable);
+            return productRepository.findByBrand(text, pageable);
+        } else if (searchType.equals(SearchProduct.TITLE)) {
+            return productRepository.findByTitle(text, pageable);
         } else {
-            return productRepository.findByManufacturerCountry(text, pageable);
+            return productRepository.findByCategory(text, pageable);
         }
     }
 
