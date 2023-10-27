@@ -31,7 +31,7 @@ const useProductForm = () => {
 
     // handling form-submission
     const handleFormSubmit = async (e) => {
-       //e.preventDefault();
+       e.preventDefault();
        
        const bodyFormData: FormData = new FormData();
        // @ts-ignore
@@ -48,9 +48,7 @@ const useProductForm = () => {
     const handleAddProduct = async (bodyFormData) => {
 
        try {
-           const response = await productApi.addProduct(user, bodyFormData);
-          // const { newProduct } = response.data;
-
+           await productApi.addProduct(user, bodyFormData);
            handleSuccessful();
        } catch (error) {
            handleAddProductError(error);
@@ -61,9 +59,7 @@ const useProductForm = () => {
     const handleUpdateProduct = async (bodyFormData) => {
 
        try {
-           const response = await productApi.updateProduct(user, bodyFormData);
-           //const { newProduct } = response.data;
-
+           await productApi.updateProduct(user, bodyFormData);
            handleSuccessful();
        } catch (error) {
            handleUpdateProductError(error);

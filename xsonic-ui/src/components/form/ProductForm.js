@@ -9,31 +9,20 @@ const ProductForm = ({selectedProduct, onSaveProduct}) => {
     const { isProductFormOpen, toggleProductForm } = useContext(commonContext);
     const { inputValues, setInputValues, handleChangeInputValues, file, handleUpload, handleFormSubmit, isError, errorMessage } = useProductForm();
 
-//    const [ isNewProduct, setIsNewProduct] = useState(true);
-
-//    const [isError, setIsError] = useState(false)
-//    const [errorMessage, setErrorMessage] = useState('')
-
- //   const [inputValues, setInputValues] = useState({});
-
     useEffect(() => {
         setInputValues(selectedProduct);
     }, [setInputValues, selectedProduct]);
-
-//    const handleChangeInputValues = (e) => {
-//        const { name, value } = e.target;
-//        setInputValues({ ...inputValues, [name]: value });
-//    };
-//
-//    const handleSaveProduct = () => {
-//        onSaveProduct(inputValues);
-//    };
 
     const formRef = useRef();
 
     useOutsideClose(formRef, () => {
         toggleProductForm(false);
     });
+
+    const handleSaveProduct = async (e) => {
+        await handleFormSubmit(e);
+        await onSaveProduct();
+    }
 
     useScrollDisable(isProductFormOpen);
 
@@ -43,7 +32,7 @@ const ProductForm = ({selectedProduct, onSaveProduct}) => {
                 isProductFormOpen && (
                     <div className="backdrop">
                         <div className="modal_centered">
-                            <form id="product_form" ref={formRef} onSubmit={handleFormSubmit}>
+                            <form id="product_form" ref={formRef} onSubmit={handleSaveProduct}>
 
                                 {/*===== Form-Header =====*/}
                                 <div className="form_head">

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect} from 'react';
 import { BsExclamationCircle, BsPencilSquare, BsTrash, BsPlusSquare, BsFiles } from 'react-icons/bs';
 import useDocTitle from '../hooks/useDocTitle';
 import FilterBar from '../components/filters/FilterBar';
@@ -7,26 +7,59 @@ import filtersContext from '../contexts/filters/filtersContext';
 import commonContext from '../contexts/common/commonContext';
 import EmptyView from '../components/common/EmptyView';
 import ProductForm from '../components/form/ProductForm';
+import { productApi } from '../helpers/productApi'
+import { handleLogError } from '../helpers/utils'
 
-const AllProducts = () => {
-    useDocTitle('All Products');
 
-    const { toggleProductForm } = useContext(commonContext);
+const AdminProducts = () => {
+    useDocTitle('Admin Products');
 
-    const { allProducts } = useContext(filtersContext);
+    const { toggleProductForm, user } = useContext(commonContext);
+
+    //const { allProducts } = useContext(filtersContext);
+    const [allProducts, setAllProducts] = useState([])
+
     const [selectedProduct, setSelectedProduct] = useState({});
+    const [isProductsLoading, setIsProductsLoading] = useState(false)
+    const [isError, setIsError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
 
+    useEffect(() => {
+        handleGetAllProducts()
+    }, [])
+
+    // handling get all products
+    const handleGetAllProducts = async () => {
+        try {
+            setIsProductsLoading(true)
+            const response = await productApi.getAdminProducts(user,'');
+            setAllProducts(response.data)
+        } catch (error) {
+            handleLogError(error);
+            if (error.response && error.response.data) {
+               const errorMessage = error.response.data;
+               setIsError(true);
+               setErrorMessage(errorMessage);
+            }
+        } finally {
+          setIsProductsLoading(false)
+        }
+    };
+
+    // handling add product
     const handleAddProduct = () => {
         setSelectedProduct({});
         toggleProductForm(true)
     };
 
+    // handling update product
     const handleUpdateProduct = () => {
         if (selectedProduct != null) {
             toggleProductForm(true)
         }
     };
 
+    // handling add copy product
     const handleCopyProduct = () => {
         if (selectedProduct != null) {
             setSelectedProduct({ ...selectedProduct, id: 0 });
@@ -34,13 +67,23 @@ const AllProducts = () => {
         }
     };
 
-    const handleDeleteProduct = () => {
-        // Обработчик удаления продукта
+    // handling delete product
+    const handleDeleteProduct = async () => {
+        if (selectedProduct != null) {
+            try {
+                await productApi.deleteProduct(user, selectedProduct.id);
+            } catch (error) {
+                handleLogError(error);
+                if (error.response && error.response.data) {
+                   const errorMessage = error.response.data;
+                   setIsError(true);
+                   setErrorMessage(errorMessage);
+                }
+            }
+        }
     };
 
-    const handleSaveProduct = (product) => {
-        // Обработчик удаления продукта
-    };
+
 
     return (
         <>
@@ -97,11 +140,10 @@ const AllProducts = () => {
             </section>
             <Services />
             <ProductForm
-                selectedProduct={selectedProduct}
-                handleSaveProduct={handleSaveProduct}
+                selectedProduct = {selectedProduct} onSaveProduct = {handleGetAllProducts}
             />
         </>
     );
 };
 
-export default AllProducts;
+export default AdminProducts;

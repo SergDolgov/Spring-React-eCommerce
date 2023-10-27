@@ -7,6 +7,7 @@ import com.letsanjoy.xsonic.dto.product.ProductSearchRequest;
 import com.letsanjoy.xsonic.enums.SearchProduct;
 import com.letsanjoy.xsonic.exception.ApiRequestException;
 import com.letsanjoy.xsonic.repository.ProductRepository;
+import com.letsanjoy.xsonic.repository.projection.FullProductProjection;
 import com.letsanjoy.xsonic.repository.projection.ProductProjection;
 import com.letsanjoy.xsonic.service.ProductService;
 import com.letsanjoy.xsonic.constants.ErrorMessage;
@@ -35,6 +36,11 @@ public class ProductServiceImpl implements ProductService {
     public Product getProductById(Long productId) {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new ApiRequestException(ErrorMessage.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND));
+    }
+
+    @Override
+    public Page<FullProductProjection> getAdminProducts(Pageable pageable) {
+        return productRepository.findAdminAllByOrderByIdAsc(pageable);
     }
 
     @Override

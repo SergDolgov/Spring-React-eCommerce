@@ -43,6 +43,15 @@ const commonReducer = (state, action) => {
             };
 
 
+        case 'GET_USER':
+            return {
+                ...state,
+                user: action.payload.user,
+                userName: action.payload.user.data.sub.split('@')[0].toUpperCase(),
+                userRole: action.payload.user.data.role
+            };
+
+
         case 'USER_LOGIN':
             const newUser = action.payload.user
             return {

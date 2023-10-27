@@ -1,6 +1,7 @@
 package com.letsanjoy.xsonic.repository;
 
 import com.letsanjoy.xsonic.domain.Product;
+import com.letsanjoy.xsonic.repository.projection.FullProductProjection;
 import com.letsanjoy.xsonic.repository.projection.ProductProjection;
 
 import org.springframework.data.domain.Page;
@@ -18,6 +19,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     
     @Query("SELECT product FROM Product product ORDER BY product.id ASC")
     Page<ProductProjection> findAllByOrderByIdAsc(Pageable pageable);
+
+    @Query("SELECT product FROM Product product ORDER BY product.id ASC")
+    Page<FullProductProjection> findAdminAllByOrderByIdAsc(Pageable pageable);
 
     List<Product> findByBrandOrderByPriceDesc(String brand);
 

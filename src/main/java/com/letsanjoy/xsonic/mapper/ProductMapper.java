@@ -8,6 +8,7 @@ import com.letsanjoy.xsonic.dto.product.ProductResponse;
 import com.letsanjoy.xsonic.dto.product.ProductSearchRequest;
 import com.letsanjoy.xsonic.enums.SearchProduct;
 import com.letsanjoy.xsonic.exception.InputFieldException;
+import com.letsanjoy.xsonic.repository.projection.FullProductProjection;
 import com.letsanjoy.xsonic.repository.projection.ProductProjection;
 import com.letsanjoy.xsonic.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,11 @@ public class ProductMapper {
 
     public List<ProductResponse> getProductsByIds(List<Long> productsId) {
         return commonMapper.convertToResponseList(productService.getProductsByIds(productsId), ProductResponse.class);
+    }
+
+    public HeaderResponse<FullProductResponse> getAdminProducts(Pageable pageable) {
+        Page<FullProductProjection> products = productService.getAdminProducts(pageable);
+        return commonMapper.getHeaderResponse(products.getContent(), products.getTotalPages(), products.getTotalElements(), FullProductResponse.class);
     }
 
     public HeaderResponse<ProductResponse> getAllProducts(Pageable pageable) {

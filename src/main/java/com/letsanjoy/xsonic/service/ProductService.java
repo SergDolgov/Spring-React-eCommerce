@@ -3,6 +3,7 @@ package com.letsanjoy.xsonic.service;
 import com.letsanjoy.xsonic.domain.Product;
 import com.letsanjoy.xsonic.dto.product.ProductSearchRequest;
 import com.letsanjoy.xsonic.enums.SearchProduct;
+import com.letsanjoy.xsonic.repository.projection.FullProductProjection;
 import com.letsanjoy.xsonic.repository.projection.ProductProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,8 @@ import java.util.List;
 public interface ProductService {
 
     Product getProductById(Long productId);
+
+    Page<FullProductProjection> getAdminProducts(Pageable pageable);
 
     Page<ProductProjection> getAllProducts(Pageable pageable);
 

@@ -5,17 +5,18 @@ import { parseJwt } from './utils'
 export const productApi = {
   login,
   registration,
-  numberOfUsers,
-  numberOfProducts,
   getUsers,
+  updateUser,
   deleteUser,
   getProduct,
   getProducts,
-  getProductsCart,
-  getBrands,
   addProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getAdminProducts,
+  getOrders,
+  getOrder,
+  postOrder
  }
 
 function login(user) {
@@ -28,14 +29,6 @@ function registration(user) {
   return instance.post('/api/v1/registration', user, {
     headers: { 'Content-type': 'application/json' }
   })
-}
-
-function numberOfUsers() {
-  return instance.get('/public/numberOfUsers')
-}
-
-function numberOfProducts() {
-  return instance.get('/public/numberOfProducts')
 }
 
 function getUsers(user, username) {
@@ -60,18 +53,6 @@ function deleteUser(user, username) {
   })
 }
 
-function getBrand(user, id) {
-  return instance.get(`/api/v1/brands/${id}`, {
-    headers: { 'Authorization': bearerAuth(user) }
-  })
-}
-
-function getBrands(user) {
-  return instance.get(`/api/v1/brands`, {
-    headers: { 'Authorization': bearerAuth(user) }
-  })
-}
-
 function getProduct(user, id) {
   return instance.get(`/api/v1/products/${id}`, {
     headers: { 'Authorization': bearerAuth(user) }
@@ -83,15 +64,6 @@ function getProducts(user, text) {
   return instance.get(url)
 }
 
-function getProductsCart(user, productsIds) {
-  return instance.post('/api/v1/products/cart', productsIds, {
-    headers: {
-      'Content-type': 'application/json',
-      'Authorization': bearerAuth(user)
-    }
-  })
-}
-
 function deleteProduct(user, id) {
   return instance.delete(`/api/v1/products/${id}`, {
     headers: { 'Authorization': bearerAuth(user) }
@@ -101,7 +73,7 @@ function deleteProduct(user, id) {
 function addProduct(user, product) {
   return instance.post('/api/v1/admin/add', product, {
     headers: {
-      'Content-type': "multipart/form-data",//'application/json',
+      'Content-type': 'multipart/form-data',//'application/json',
       'Authorization': bearerAuth(user)
     }
   })
@@ -110,23 +82,33 @@ function addProduct(user, product) {
 function updateProduct(user, product) {
   return instance.post('/api/v1/admin/update', product, {
     headers: {
-      'Content-type': "multipart/form-data",//'application/json',
+      'Content-type': 'multipart/form-data',//'application/json',
       'Authorization': bearerAuth(user)
     }
   })
 }
 
-function addProductToCart(user, product) {
-  return instance.post('/api/v1/cart', product, {
-    headers: {
-      'Content-type': 'application/json',
-      'Authorization': bearerAuth(user)
-    }
+function getAdminProducts(user) {
+  return instance.get(`/api/v1/admin/get`, {
+    headers: { 'Authorization': bearerAuth(user) }
   })
 }
 
 function getOrder(user, id) {
-  return instance.get(`/api/v1/products/${id}`, {
+  return instance.get(`/api/v1/order/${id}`, {
+    headers: { 'Authorization': bearerAuth(user) }
+  })
+}
+
+function getOrders(user) {
+  return instance.get(`/api/v1/orders`, {
+    headers: { 'Authorization': bearerAuth(user) }
+  })
+}
+
+function postOrder(user, order) {
+  return instance.post(`/api/v1/order`, order, {
+    'Content-type': 'application/json',
     headers: { 'Authorization': bearerAuth(user) }
   })
 }
@@ -144,7 +126,7 @@ instance.interceptors.request.use(function (config) {
     const data = parseJwt(token)
 
     if (Date.now() > data.exp * 1000) {
-     window.location.href = "/login"
+     window.location.href = '/login'
     }
 
   }

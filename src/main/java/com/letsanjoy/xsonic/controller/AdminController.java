@@ -4,6 +4,7 @@ import com.letsanjoy.xsonic.dto.HeaderResponse;
 import com.letsanjoy.xsonic.dto.order.OrderResponse;
 import com.letsanjoy.xsonic.dto.product.ProductRequest;
 import com.letsanjoy.xsonic.dto.product.FullProductResponse;
+import com.letsanjoy.xsonic.dto.product.ProductResponse;
 import com.letsanjoy.xsonic.dto.user.BaseUserResponse;
 import com.letsanjoy.xsonic.dto.user.UserResponse;
 import com.letsanjoy.xsonic.mapper.OrderMapper;
@@ -36,6 +37,12 @@ public class AdminController {
     private final UserMapper userMapper;
     private final ProductMapper productMapper;
     private final OrderMapper orderMapper;
+
+    @GetMapping(PathConstants.GET)
+    public ResponseEntity<List<FullProductResponse>> getAllProducts(@PageableDefault(size = 100) Pageable pageable) {
+        HeaderResponse<FullProductResponse> response = productMapper.getAdminProducts(pageable);
+        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
+    }
 
     @PostMapping(PathConstants.ADD)
     public ResponseEntity<FullProductResponse> addProduct(@RequestPart(name = "file", required = false) MultipartFile file,

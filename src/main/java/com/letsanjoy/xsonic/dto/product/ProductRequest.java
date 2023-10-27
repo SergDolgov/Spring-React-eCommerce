@@ -22,7 +22,7 @@ public class ProductRequest {
     @Length(max = 255)
     private String brand;
 
-    @NotNull(message = FILL_IN_THE_INPUT_FIELD)
+    //@NotNull(message = FILL_IN_THE_INPUT_FIELD)
     private Integer rateCount;
 
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)

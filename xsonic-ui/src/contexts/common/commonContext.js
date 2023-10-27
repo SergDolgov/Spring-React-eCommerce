@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useEffect } from 'react';
 import commonReducer from './commonReducer';
 
 // Common-Context
@@ -19,6 +19,16 @@ const initialState = {
 const CommonProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(commonReducer, initialState);
+//    const [user, setUser] = useState(null)
+//
+//
+//    const getUser = () => {
+//        const storedUser = JSON.parse(localStorage.getItem('user'))
+//        return dispatch({
+//            type: 'GET_USER',
+//            payload: {storedUser}
+//        });
+//    }
 
     // User login action
     const userLogin = user => {
@@ -28,6 +38,11 @@ const CommonProvider = ({ children }) => {
             payload: {user}
         });
     }
+
+    useEffect(() => {
+         const storedUser = JSON.parse(localStorage.getItem('user'))
+         if(storedUser){userLogin(storedUser)}
+    }, [])
 
     // User logout action
     const userLogout = () => {

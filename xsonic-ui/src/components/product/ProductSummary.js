@@ -84,6 +84,7 @@ const ProductSummary = (props) => {
                                 </div>
                             ) : (
                                 <div className="prod_reviews">
+                                <div> Hello </div>
                                     <ul>
                                         {
                                             reviewsData.map(item => (

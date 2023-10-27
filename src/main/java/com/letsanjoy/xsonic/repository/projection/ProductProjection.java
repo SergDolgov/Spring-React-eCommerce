@@ -9,7 +9,9 @@ public interface ProductProjection {
     Integer getPrice();
     String getFilename();
     Double getRatings();
-    
+
+
+
     @Value("#{target.reviews.size()}")
     Integer getReviewsCount();
 
