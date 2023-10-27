@@ -20,7 +20,7 @@ const ProductForm = ({selectedProduct, onSaveProduct}) => {
     });
 
     const handleSaveProduct = async (e) => {
-        await handleFormSubmit(e);
+        const data = await handleFormSubmit(e);
         await onSaveProduct();
     }
 
