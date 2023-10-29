@@ -22,13 +22,9 @@ const CommonProvider = ({ children }) => {
 //    const [user, setUser] = useState(null)
 //
 //
-//    const getUser = () => {
-//        const storedUser = JSON.parse(localStorage.getItem('user'))
-//        return dispatch({
-//            type: 'GET_USER',
-//            payload: {storedUser}
-//        });
-//    }
+    function getUser() {
+        return JSON.parse(localStorage.getItem('user'));
+    }
 
     // User login action
     const userLogin = user => {
@@ -40,7 +36,7 @@ const CommonProvider = ({ children }) => {
     }
 
     useEffect(() => {
-         const storedUser = JSON.parse(localStorage.getItem('user'))
+         const storedUser = getUser()
          if(storedUser){userLogin(storedUser)}
     }, [])
 
@@ -100,6 +96,7 @@ const CommonProvider = ({ children }) => {
         setFormUserInfo,
         toggleSearch,
         setSearchResults,
+        getUser,
         userLogin,
         userLogout
     };

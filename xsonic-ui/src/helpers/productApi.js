@@ -65,7 +65,7 @@ function getProducts(user, text) {
 }
 
 function deleteProduct(user, id) {
-  return instance.delete(`/api/v1/products/${id}`, {
+  return instance.delete(`/api/v1/admin/delete/${id}`, {
     headers: { 'Authorization': bearerAuth(user) }
   })
 }

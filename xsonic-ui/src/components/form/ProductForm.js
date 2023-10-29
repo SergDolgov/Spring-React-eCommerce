@@ -1,13 +1,15 @@
 import React, { useContext, useRef, useEffect } from 'react';
-import useProductForm from '../../hooks/useProductForm';
+//import useProductForm from '../../hooks/useProductForm';
 import commonContext from '../../contexts/common/commonContext';
 import useOutsideClose from '../../hooks/useOutsideClose';
 import useScrollDisable from '../../hooks/useScrollDisable';
 
-const ProductForm = ({selectedProduct, onSaveProduct}) => {
+//const ProductForm = ({selectedProduct, onSaveProduct}) => {
+const ProductForm = (props) => {
 
     const { isProductFormOpen, toggleProductForm } = useContext(commonContext);
-    const { inputValues, setInputValues, handleChangeInputValues, file, handleUpload, handleFormSubmit, isError, errorMessage } = useProductForm();
+ //   const { inputValues, setInputValues, handleChangeInputValues, file, handleUpload, handleFormSubmit, isError, errorMessage } = useProductForm();
+    const { inputValues, setInputValues, handleChangeInputValues, file, handleUpload, handleFormSubmit, isError, errorMessage, selectedProduct, onSaveProduct } = props;
 
     useEffect(() => {
         setInputValues(selectedProduct);
@@ -19,10 +21,11 @@ const ProductForm = ({selectedProduct, onSaveProduct}) => {
         toggleProductForm(false);
     });
 
-    const handleSaveProduct = async (e) => {
-        const data = await handleFormSubmit(e);
-        await onSaveProduct();
-    }
+//    const handleSaveProduct = async (e) => {
+//
+//        const data = await handleFormSubmit(e);
+//        await onSaveProduct();
+//    }
 
     useScrollDisable(isProductFormOpen);
 
@@ -32,7 +35,7 @@ const ProductForm = ({selectedProduct, onSaveProduct}) => {
                 isProductFormOpen && (
                     <div className="backdrop">
                         <div className="modal_centered">
-                            <form id="product_form" ref={formRef} onSubmit={handleSaveProduct}>
+                            <form id="product_form" ref={formRef} onSubmit={handleFormSubmit}>
 
                                 {/*===== Form-Header =====*/}
                                 <div className="form_head">

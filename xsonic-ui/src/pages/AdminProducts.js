@@ -6,6 +6,7 @@ import Services from '../components/common/Services';
 import filtersContext from '../contexts/filters/filtersContext';
 import commonContext from '../contexts/common/commonContext';
 import EmptyView from '../components/common/EmptyView';
+import useProductForm from '../hooks/useProductForm';
 import ProductForm from '../components/form/ProductForm';
 import { productApi } from '../helpers/productApi'
 import { handleLogError } from '../helpers/utils'
@@ -14,46 +15,54 @@ import { handleLogError } from '../helpers/utils'
 const AdminProducts = () => {
     useDocTitle('Admin Products');
 
-    const { toggleProductForm, user } = useContext(commonContext);
+    const { toggleProductForm, getUser } = useContext(commonContext);
 
+    const [isError, setIsError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+    const { inputValues, setInputValues, handleChangeInputValues, file, handleUpload } = useProductForm();
+
+    const user = getUser();
     //const { allProducts } = useContext(filtersContext);
     const [allProducts, setAllProducts] = useState([])
 
     const [selectedProduct, setSelectedProduct] = useState({});
     const [isProductsLoading, setIsProductsLoading] = useState(false)
-    const [isError, setIsError] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
+    const [isUpdated, setIsUpdated] = useState(true)
 
     useEffect(() => {
-        handleGetAllProducts()
-    }, [])
-
-    // handling get all products
-    const handleGetAllProducts = async () => {
-        try {
-            setIsProductsLoading(true)
-            const response = await productApi.getAdminProducts(user,'');
-            setAllProducts(response.data)
-        } catch (error) {
-            handleLogError(error);
-            if (error.response && error.response.data) {
-               const errorMessage = error.response.data;
-               setIsError(true);
-               setErrorMessage(errorMessage);
+        // get all products
+        const fetchData = async () => {
+            if (isUpdated){
+                try {
+                    setIsProductsLoading(true)
+                    const response = await productApi.getAdminProducts(user,'');
+                    setAllProducts(response.data)
+                } catch (error) {
+                    handleLogError(error);
+                    if (error.response && error.response.data) {
+                       const errorMessage = error.response.data;
+                       setIsError(true);
+                       setErrorMessage(errorMessage);
+                    }
+                } finally {
+                    setIsProductsLoading(false)
+                    setIsUpdated(false)
+                }
             }
-        } finally {
-          setIsProductsLoading(false)
         }
-    };
+
+        fetchData();
+
+    }, [isUpdated, user])
 
     // handling add product
-    const handleAddProduct = () => {
+    const handleAddProductForm = () => {
         setSelectedProduct({});
         toggleProductForm(true)
     };
 
     // handling update product
-    const handleUpdateProduct = () => {
+    const handleUpdateProductForm = () => {
         if (selectedProduct != null) {
             toggleProductForm(true)
         }
@@ -72,6 +81,8 @@ const AdminProducts = () => {
         if (selectedProduct != null) {
             try {
                 await productApi.deleteProduct(user, selectedProduct.id);
+                 setIsUpdated(true);
+                //alert('The product was successfully deleted!');
             } catch (error) {
                 handleLogError(error);
                 if (error.response && error.response.data) {
@@ -85,15 +96,105 @@ const AdminProducts = () => {
 
 
 
+    const handleSaveProduct = async (e) => {
+       e.preventDefault();
+
+       const bodyFormData: FormData = new FormData();
+       // @ts-ignore
+       bodyFormData.append("file", file);
+       bodyFormData.append(
+           "product",
+           new Blob([JSON.stringify({ ...inputValues})], { type: "application/json" })
+       );
+
+       !inputValues.id ? handleAddProduct(bodyFormData):handleUpdateProduct(bodyFormData)
+
+    }
+
+    // handling add product
+    const handleAddProduct = async (bodyFormData) => {
+
+       try {
+           await productApi.addProduct(user, bodyFormData);
+           clearProductForm();
+       } catch (error) {
+           handleAddProductError(error);
+       }
+    };
+
+    // handling update product
+    const handleUpdateProduct = async (bodyFormData) => {
+
+       try {
+           await productApi.updateProduct(user, bodyFormData);
+           clearProductForm();
+       } catch (error) {
+           handleUpdateProductError(error);
+       }
+    };
+
+    // clear values after add/update product
+    const clearProductForm = () => {
+       setInputValues({});
+       toggleProductForm(false);
+       setIsError(false);
+       setIsUpdated(true);
+       setErrorMessage('');
+       // alert(`Hello ${loggedUserInfo}, you're successfully logged-in.`);
+    };
+
+    //handling login errors
+    const handleAddProductError = (error) => {
+       handleLogError(error);
+       if (error.response && error.response.data) {
+           const errorMessage = error.response.data;
+           setIsError(true);
+           setErrorMessage(errorMessage);
+       }
+    };
+
+    // handling update product errors
+    const handleUpdateProductError = (error) => {
+       handleLogError(error);
+       if (error.response && error.response.data) {
+           const errorData = error.response.data;
+           let errorMessage = 'Invalid fields'
+           if (error.response.status === 400) {
+               errorMessage = errorData.passwordError ? errorData.passwordError : errorData.password2Error ? errorData.password2Error : errorData.emailError
+           }
+
+           setIsError(true);
+           setErrorMessage(errorMessage);
+       }
+    };
+
+
+
+
+    const handleFormSubmit = (e) => {
+        try {
+            handleSaveProduct(e)
+            clearProductForm()
+        } catch (error) {
+            handleLogError(error)
+            if (error.response && error.response.data) {
+               const errorMessage = error.response.data;
+               setIsError(true);
+               setErrorMessage(errorMessage);
+            }
+        }
+    }
+
+
     return (
         <>
             <section id="admin_products" className="section">
                 <FilterBar />
                 <div className="container">
                     <div className="actions">
-                        <BsPlusSquare onClick={handleAddProduct} className="action-icon" />
+                        <BsPlusSquare onClick={handleAddProductForm} className="action-icon" />
                         <BsFiles  onClick={handleCopyProduct} className="action-icon" />
-                        <BsPencilSquare onClick={handleUpdateProduct} className="action-icon" />
+                        <BsPencilSquare onClick={handleUpdateProductForm} className="action-icon" />
                         <BsTrash onClick={handleDeleteProduct} className="action-icon" />
                     </div>
                     {allProducts.length ? (
@@ -140,7 +241,15 @@ const AdminProducts = () => {
             </section>
             <Services />
             <ProductForm
-                selectedProduct = {selectedProduct} onSaveProduct = {handleGetAllProducts}
+                selectedProduct = {selectedProduct}
+                inputValues = {inputValues}
+                setInputValues = {setInputValues}
+                handleChangeInputValues = {handleChangeInputValues}
+                file = {file}
+                handleUpload = {handleUpload}
+                handleFormSubmit = {handleFormSubmit}
+                isError = {isError}
+                errorMessage = {errorMessage}
             />
         </>
     );
