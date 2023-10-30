@@ -3,7 +3,7 @@ import productsData from '../../data/productsData';
 import { brandsMenu, categoryMenu } from '../../data/filterBarData';
 import filtersReducer from './filtersReducer';
 import { productApi } from '../../helpers/productApi'
-import { parseJwt, handleLogError } from '../../helpers/utils'
+import { handleLogError } from '../../helpers/utils'
 
 // Filters-Context
 const filtersContext = createContext();
@@ -12,6 +12,7 @@ const filtersContext = createContext();
 // Initial State
 const initialState = {
     allProducts: [],
+    isProductsLoading: true,
     sortedValue: null,
     updatedBrandsMenu: brandsMenu,
     updatedCategoryMenu: categoryMenu,
@@ -31,17 +32,52 @@ const FiltersProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(filtersReducer, initialState);
 
+    const [allProducts1, setAllProducts1] = useState([])
+
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+     const fetchData = async () => {
+         try {
+             const response = await productApi.getProducts('');
+             setAllProducts1(response.data);
+         } catch (error) {
+//             handleLogError(error);
+//             if (error.response && error.response.data) {
+//                 const errorMessage = error.response.data;
+//                 setIsError(true);
+//                 setErrorMessage(errorMessage);
+//             }
+         } finally {
+             setIsLoading(false);
+         }
+     };
+
+     fetchData();
+    }, []);
+
+    useEffect(() => {
+     if (!isLoading) {
+         applyFilters();
+         setIsProductsLoading(false);
+     }
+    }, [isLoading, state.sortedValue, state.updatedBrandsMenu, state.updatedCategoryMenu, state.selectedPrice]);
+
+
 
     /* Loading All Products on the initial render */
     useEffect(() => {
 
         // making a shallow copy of the original products data, because we should never mutate the original data.
-        const products = [...productsData];
+        //const products = [...productsData];
+
+       //getAllProducts()
+        const products = [...allProducts1];
 
         // finding the Max and Min Price, & setting them into the state.
         const priceArr = products.map(item => item.finalPrice);
-        const minPrice = Math.min(...priceArr);
-        const maxPrice = Math.max(...priceArr);
+        const minPrice = 100//Math.min(...priceArr);
+        const maxPrice = 50000//Math.max(...priceArr);
 
         dispatch({
             type: 'LOAD_ALL_PRODUCTS',
@@ -54,7 +90,9 @@ const FiltersProvider = ({ children }) => {
     /* function for applying Filters - (sorting & filtering) */
     const applyFilters = () => {
 
-        let updatedProducts = [...productsData];
+        //let updatedProducts = [...productsData];
+        //getAllProducts()
+        let updatedProducts = [...allProducts1];
 
         /*==== Sorting ====*/
         if (state.sortedValue) {
@@ -123,8 +161,14 @@ const FiltersProvider = ({ children }) => {
     }, [state.sortedValue, state.updatedBrandsMenu, state.updatedCategoryMenu, state.selectedPrice]);
 
 
-
     // Dispatched Actions
+    const setIsProductsLoading = (loading) => {
+        return dispatch({
+            type: 'SET_IS_PRODUCTS_LOADING',
+            payload: { loading }
+        });
+    };
+
     const setSortedValue = (sortValue) => {
         return dispatch({
             type: 'SET_SORTED_VALUE',

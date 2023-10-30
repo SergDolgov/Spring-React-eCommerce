@@ -29,6 +29,13 @@ const commonReducer = (state, action) => {
             };
 
 
+        case 'SET_PRODUCT_UPDATED':
+            return {
+                ...state,
+                isProductUpdated: action.payload.updated
+            };
+
+
         case 'TOGGLE_SEARCH':
             return {
                 ...state,

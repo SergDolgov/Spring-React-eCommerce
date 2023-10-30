@@ -3,6 +3,7 @@ import { BsExclamationCircle } from 'react-icons/bs';
 import useDocTitle from '../hooks/useDocTitle';
 import FilterBar from '../components/filters/FilterBar';
 import ProductCard from '../components/product/ProductCard';
+import Preloader from '../components/common/Preloader';
 import Services from '../components/common/Services';
 import filtersContext from '../contexts/filters/filtersContext';
 import EmptyView from '../components/common/EmptyView';
@@ -12,8 +13,7 @@ const AllProducts = () => {
 
     useDocTitle('All Products');
 
-    const { allProducts } = useContext(filtersContext);
-
+    const { allProducts, isProductsLoading } = useContext(filtersContext);
 
     return (
         <>
@@ -22,6 +22,9 @@ const AllProducts = () => {
 
                 <div className="container">
                     {
+                        isProductsLoading ? (
+                            <Preloader />
+                        ) :
                         allProducts.length ? (
                             <div className="wrapper products_wrapper">
                                 {

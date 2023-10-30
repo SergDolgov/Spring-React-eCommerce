@@ -47,5 +47,7 @@ public interface FullProductProjection extends ProductProjection{
 
     String getQuantity();
 
+    Integer getRateCount();
+
 
 }

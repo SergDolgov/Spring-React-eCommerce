@@ -10,6 +10,7 @@ const initialState = {
     userName: '',
     userRole: '',
     isFormOpen: false,
+    isProductUpdated: true,
     isProductFormOpen: false,
     isSearchOpen: false,
     searchResults: [],
@@ -19,9 +20,7 @@ const initialState = {
 const CommonProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(commonReducer, initialState);
-//    const [user, setUser] = useState(null)
-//
-//
+
     function getUser() {
         return JSON.parse(localStorage.getItem('user'));
     }
@@ -72,6 +71,13 @@ const CommonProvider = ({ children }) => {
         });
     };
 
+    const setIsProductUpdated = (updated) => {
+        return dispatch({
+            type: 'SET_PRODUCT_UPDATED',
+            payload: { updated }
+        });
+    };
+
     // Search actions
     const toggleSearch = (toggle) => {
         return dispatch({
@@ -93,6 +99,7 @@ const CommonProvider = ({ children }) => {
         ...state,
         toggleForm,
         toggleProductForm,
+        setIsProductUpdated,
         setFormUserInfo,
         toggleSearch,
         setSearchResults,

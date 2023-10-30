@@ -20,9 +20,15 @@ public class ProductController {
 
     private final ProductMapper productMapper;
 
-    @GetMapping
+    @GetMapping("/short")
     public ResponseEntity<List<ProductResponse>> getAllProducts(@PageableDefault(size = 15) Pageable pageable) {
         HeaderResponse<ProductResponse> response = productMapper.getAllProducts(pageable);
+        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<FullProductResponse>> getProducts(@PageableDefault(size = 15) Pageable pageable) {
+        HeaderResponse<FullProductResponse> response = productMapper.getAdminProducts(pageable);
         return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 

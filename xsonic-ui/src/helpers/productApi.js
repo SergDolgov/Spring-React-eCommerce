@@ -53,13 +53,11 @@ function deleteUser(user, username) {
   })
 }
 
-function getProduct(user, id) {
-  return instance.get(`/api/v1/products/${id}`, {
-    headers: { 'Authorization': bearerAuth(user) }
-  })
+function getProduct(id) {
+  return instance.get(`/api/v1/products/${id}`)
 }
 
-function getProducts(user, text) {
+function getProducts(text) {
   const url = text ? `/api/v1/products?text=${text}` : '/api/v1/products'
   return instance.get(url)
 }

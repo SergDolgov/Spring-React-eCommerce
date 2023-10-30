@@ -10,6 +10,8 @@ import SectionsHead from '../components/common/SectionsHead';
 import RelatedSlider from '../components/sliders/RelatedSlider';
 import ProductSummary from '../components/product/ProductSummary';
 import Services from '../components/common/Services';
+import { productApi } from '../helpers/productApi'
+import { handleLogError } from '../helpers/utils'
 
 
 const ProductDetails = () => {
@@ -26,12 +28,56 @@ const ProductDetails = () => {
     const prodId = parseInt(productId);
 
     // showing the Product based on the received 'id'
-    const product = productsData.find(item => item.id === prodId);
+    //const product = productsData.find(item => item.id === prodId);
 
-    const { images, title, info, category, finalPrice, originalPrice, ratings, rateCount } = product;
+    const [product, setProduct] = useState([])
 
-    const [previewImg, setPreviewImg] = useState(images[0]);
+    const { filename, title, info, category, finalPrice, originalPrice, ratings, rateCount } = product;
 
+    const [images, setImages] = useState([]);
+
+   // const [previewImg, setPreviewImg] = useState(images[0]);
+
+    const [previewImg, setPreviewImg] = useState('');
+
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+     const fetchData = async () => {
+         try {
+             const response = await productApi.getProduct(productId);
+             setProduct(response.data);
+         } catch (error) {
+//             handleLogError(error);
+//             if (error.response && error.response.data) {
+//                 const errorMessage = error.response.data;
+//                 setIsError(true);
+//                 setErrorMessage(errorMessage);
+//             }
+         } finally {
+             setIsLoading(false);
+         }
+     };
+
+     fetchData();
+    }, []);
+
+    useEffect(() => {
+     if (!isLoading) {
+        getImages();
+     }
+    }, [isLoading]);
+
+    const getImages = () => {
+        const basePath = '/images/products/';
+        const imageArray = [];
+
+        for (let i = 1; i <= 4; i++) {
+            const newImagePath = `${basePath}${filename.replace('.png', `-${i}.png`)}`;
+            imageArray.push(newImagePath);
+        }
+        setImages(imageArray)
+    };
 
     // handling Add-to-cart
     const handleAddItem = () => {

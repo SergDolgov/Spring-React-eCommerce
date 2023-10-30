@@ -17,6 +17,13 @@ const filtersReducer = (state, action) => {
             };
 
 
+        case 'SET_IS_PRODUCTS_LOADING':
+            return {
+                ...state,
+                isProductsLoading: action.payload.loading
+            };
+
+
         case 'SET_SORTED_VALUE':
             return {
                 ...state,

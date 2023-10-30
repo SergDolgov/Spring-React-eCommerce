@@ -1,15 +1,13 @@
 import React, { useContext, useRef, useEffect } from 'react';
-//import useProductForm from '../../hooks/useProductForm';
+import useProductForm from '../../hooks/useProductForm';
 import commonContext from '../../contexts/common/commonContext';
 import useOutsideClose from '../../hooks/useOutsideClose';
 import useScrollDisable from '../../hooks/useScrollDisable';
 
-//const ProductForm = ({selectedProduct, onSaveProduct}) => {
-const ProductForm = (props) => {
+const ProductForm = ({selectedProduct}) => {
 
     const { isProductFormOpen, toggleProductForm } = useContext(commonContext);
- //   const { inputValues, setInputValues, handleChangeInputValues, file, handleUpload, handleFormSubmit, isError, errorMessage } = useProductForm();
-    const { inputValues, setInputValues, handleChangeInputValues, file, handleUpload, handleFormSubmit, isError, errorMessage, selectedProduct, onSaveProduct } = props;
+    const { inputValues, setInputValues, handleChangeInputValues, file, handleUpload, handleFormSubmit, isError, errorMessage } = useProductForm();
 
     useEffect(() => {
         setInputValues(selectedProduct);
@@ -20,12 +18,6 @@ const ProductForm = (props) => {
     useOutsideClose(formRef, () => {
         toggleProductForm(false);
     });
-
-//    const handleSaveProduct = async (e) => {
-//
-//        const data = await handleFormSubmit(e);
-//        await onSaveProduct();
-//    }
 
     useScrollDisable(isProductFormOpen);
 
