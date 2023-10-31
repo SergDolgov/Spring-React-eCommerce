@@ -82,7 +82,7 @@ const ProductForm = ({selectedProduct}) => {
                                             <input
                                                 type="file"
                                                 name="image1"
-                                                className="input_field1"
+                                                className="input_field1 "
                                                 onChange={handleUploadImage}
                                                 accept="image/*"
                                             />
