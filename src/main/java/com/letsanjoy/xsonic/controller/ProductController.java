@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<FullProductResponse>> getProducts(@PageableDefault(size = 15) Pageable pageable) {
+    public ResponseEntity<List<FullProductResponse>> getProducts(@PageableDefault(size = 50) Pageable pageable) {
         HeaderResponse<FullProductResponse> response = productMapper.getAdminProducts(pageable);
         return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }

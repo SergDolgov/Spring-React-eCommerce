@@ -62,6 +62,19 @@ app:
     #allowed-origins: http://localhost:3000
     allowed-origins: http://localhost:9000
 
+upload:
+  path: classpath:images
+
+amazon:
+  aws:
+    access-key: ${AMAZON_ACCESS_KEY:AKIATP4TDBGPCTXUIXD2}
+    secret-key: ${AMAZON_SECRET_KEY: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}
+  s3:
+    bucket:
+      name: ${AMAZON_S3_BUCKET_NAME:perfumeswebstorage}
+
+
+
 recaptcha:
   secret: 6Lc5cLkZAAAAANUjd4--Jx6PioSC_N-9MFKT3PsA
   url: https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s

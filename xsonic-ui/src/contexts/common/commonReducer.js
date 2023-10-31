@@ -74,7 +74,8 @@ const commonReducer = (state, action) => {
                 ...state,
                 user: null,
                 userName: '',
-                userRole: ''
+                userRole: '',
+                isProductUpdated: true
             };
 
 

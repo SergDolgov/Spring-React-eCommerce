@@ -5,7 +5,7 @@ import useScrollDisable from '../../hooks/useScrollDisable';
 const Preloader = () => {
     const [isLoading, setIsLoading] = useState(true);
 
-    useScrollDisable(isLoading);
+    //useScrollDisable(isLoading);
 
     useEffect(() => {
         const handleIsLoading = () => {

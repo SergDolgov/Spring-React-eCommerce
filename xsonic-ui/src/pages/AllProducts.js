@@ -12,7 +12,6 @@ import EmptyView from '../components/common/EmptyView';
 const AllProducts = () => {
 
     useDocTitle('All Products');
-
     const { allProducts, isProductsLoading } = useContext(filtersContext);
 
     return (

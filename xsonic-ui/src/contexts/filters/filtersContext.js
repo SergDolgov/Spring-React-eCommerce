@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect, useReducer } from 'react';
+import { useState, createContext, useContext, useEffect, useReducer } from 'react';
 import productsData from '../../data/productsData';
 import { brandsMenu, categoryMenu } from '../../data/filterBarData';
 import filtersReducer from './filtersReducer';
@@ -39,7 +39,7 @@ const FiltersProvider = ({ children }) => {
     useEffect(() => {
      const fetchData = async () => {
          try {
-             const response = await productApi.getProducts('');
+             const response = await productApi.getProducts();
              setAllProducts1(response.data);
          } catch (error) {
 //             handleLogError(error);

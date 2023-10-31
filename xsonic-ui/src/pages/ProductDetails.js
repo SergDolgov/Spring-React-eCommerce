@@ -73,7 +73,7 @@ const ProductDetails = () => {
         const imageArray = [];
 
         for (let i = 1; i <= 4; i++) {
-            const newImagePath = `${basePath}${filename.replace('.png', `-${i}.png`)}`;
+            const newImagePath = filename ? `${basePath}${filename.replace('.png', `-${i}.png`)}`: '/images/empty-image.png';
             imageArray.push(newImagePath);
         }
         setImages(imageArray)

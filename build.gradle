@@ -47,6 +47,8 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
+	implementation 'com.amazonaws:aws-java-sdk:1.11.133'
+
 	compileOnly 'io.jsonwebtoken:jjwt-api:0.12.3'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

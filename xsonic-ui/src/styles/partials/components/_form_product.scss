@@ -1,7 +1,7 @@
 #product_form {
     position: relative;
     background-color: var(--bg-color);
-    max-width: 480px;
+    max-width: 780px;
     width: 100%;
     padding: 3rem;
     border-radius: 3px;
@@ -32,7 +32,7 @@
     }
 }
 
-.form_head {
+.product_form_head {
 
     h2 {
         margin-bottom: 0.6rem;
@@ -48,8 +48,47 @@
     }
 }
 
-.form_body {
+.product_form_body {
     display: grid;
+
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1rem;
+ }
+
+.image_block {
+    display: grid;
+
+    gap: 1rem;
+    @include margin-y(2rem, 2rem);
+
+
+}
+
+.image_details_tabs {
+    display: grid;
+    gap: 0.1rem;
+
+    .tabs_item {
+        @include dimension(9rem, 9rem);
+        @include bordered(2px, rgba($color: #ffffff, $alpha: 0.2));
+        border-radius: 3px;
+        padding: 0.5rem;
+        cursor: pointer;
+        @include transition(border-color, 0.2s);
+
+        &.active {
+            border-color: #eee;
+        }
+
+        img {
+            @include img-fit;
+        }
+    }
+}
+
+.product_form_fields {
+    display: grid;
+
     gap: 1.5rem;
     @include margin-y(2rem, 2rem);
 
@@ -84,12 +123,12 @@
 
     .cancel_btn {
         @include margin-y(0.8rem, 0.4rem);
-        background-color: gray; /* Цвет кнопок */
+        background-color: gray;
     }
 
 }
 
-.form_foot {
+.product_form_foot {
     text-align: center;
 
     p {
@@ -106,35 +145,6 @@
         &::after {
             left: auto;
             right: 0;
-        }
-    }
-}
-
-.login_options {
-    display: grid;
-    @include grid-cols(3, 1fr, 1rem);
-
-    a {
-        color: #fff;
-        text-shadow: var(--text-shadow);
-        @include padding-x(0.4rem, 0.4rem);
-        @include padding-y(0.8rem, 0.8rem);
-
-        &:nth-child(1) {
-            background-color: var(--fb-color);
-        }
-
-        &:nth-child(2) {
-            background-color: var(--google-color);
-        }
-
-        &:nth-child(3) {
-            background-color: var(--twitter-color);
-        }
-
-        @include devices(xs) {
-            font-size: 0.8rem;
-            @include padding-y(0.5rem, 0.5rem);
         }
     }
 }
