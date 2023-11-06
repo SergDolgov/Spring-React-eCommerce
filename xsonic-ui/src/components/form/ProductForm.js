@@ -42,22 +42,21 @@ const ProductForm = ({selectedProduct}) => {
         setImages(imageArray)
     };
 
-    const handleUploadImage = (event) => {
-        const file1 = event.target.files[0]; // Получаем выбранный файл из input
-
-        if (file1) {
-            // Создаем объект FileReader для чтения файла
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                // Когда чтение файла завершено, устанавливаем значение inputValues.image1
-                setInputValues({
-                    ...inputValues,
-                    image1: reader.result // reader.result содержит URL-адрес изображения в формате data URL
-                });
-            };
-            reader.readAsDataURL(file1); // Читаем файл как data URL (base64)
-        }
-    };
+     const handleUploadImage = (event, i) => {
+         const file = event.target.files[0];
+         const reader = new FileReader();
+         reader.onloadend = () => {
+             const imageUrl = reader.result;
+             setImages(prevImages => {
+                 const updatedImages = [...prevImages];
+                 updatedImages[i] = imageUrl;
+                 return updatedImages;
+             });
+         };
+         if (file) {
+             reader.readAsDataURL(file);
+         }
+     };
 
 
     return (
@@ -78,30 +77,24 @@ const ProductForm = ({selectedProduct}) => {
 
                                     {/*===== image_block =====*/}
                                     <div className="image_block">
-                                        <div className="input_box">
-                                            <input
-                                                type="file"
-                                                name="image1"
-                                                className="input_field1 "
-                                                onChange={handleUploadImage}
-                                                accept="image/*"
-                                            />
+                                        <div className="image_details_tabs">
+                                            {
+                                                images.map((img, i) => (
+                                                    <div  className={`tabs_item ${activeClass(i)}`} key={i}>
+                                                        <img src={img} alt="product-img" />
+                                                         <label htmlFor={`file-upload-${i}`} className="file-upload-label">
+                                                            <span>...</span>
+                                                            <input
+                                                                type="file"
+                                                                id={`file-upload-${i}`}
+                                                                onChange={(event) => handleUploadImage(event, i)}
+                                                                accept="image/*"
+                                                            />
+                                                        </label>
+                                                    </div>
+                                                ))
+                                            }
                                         </div>
-                                            <div className="image_details_tabs">
-                                                {
-                                                    images.map((img, i) => (
-                                                        <div  className={`tabs_item ${activeClass(i)}`}
-                                                            key={i}
-                                                            type="file"
-                                                            name="image1"
-                                                            onChange={handleUploadImage}
-                                                            accept="image/*"
-                                                        >
-                                                            <img src={img} alt="product-img" />
-                                                        </div>
-                                                    ))
-                                                }
-                                            </div>
                                     </div>
 
                                    {/*===== form_fields =====*/}
