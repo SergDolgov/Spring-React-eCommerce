@@ -97,7 +97,7 @@ const ProductForm = ({selectedProduct}) => {
                                         </div>
                                     </div>
 
-                                   {/*===== form_fields =====*/}
+                                   {/*===== form_fields == ===*/}
                                     <div className="product_form_fields">
                                         <div className="input_box">
                                             <input
