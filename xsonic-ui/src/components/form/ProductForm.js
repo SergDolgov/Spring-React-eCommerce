@@ -1,25 +1,36 @@
-import React, { useContext, useRef, useEffect, useState } from 'react';
+import React, { useContext, useRef, useEffect, useState, useCallback } from 'react';
 import useProductForm from '../../hooks/useProductForm';
 import commonContext from '../../contexts/common/commonContext';
 import useOutsideClose from '../../hooks/useOutsideClose';
 import useScrollDisable from '../../hooks/useScrollDisable';
 import useActive from '../../hooks/useActive';
+import ProductFormField from './ProductFormField';
 
 const ProductForm = ({selectedProduct}) => {
 
     const { isProductFormOpen, toggleProductForm } = useContext(commonContext);
-    const { inputValues, setInputValues, handleChangeInputValues, file, handleUpload, handleFormSubmit, isError, errorMessage } = useProductForm();
+    const { inputValues, setInputValues, handleChangeInputValues, handleUpload, handleFormSubmit, isError, errorMessage } = useProductForm();
+    const { activeClass } = useActive(0);
 
     const [images, setImages] = useState([]);
 
-    const { handleActive, activeClass } = useActive(0);
+    const formRef = useRef();
+
+    const getImages = useCallback(() => {
+        const basePath = '/images/products/';
+        const imageArray = [];
+
+        for (let i = 1; i <= 4; i++) {
+            const newImagePath = selectedProduct.filename && selectedProduct.filename !== 'empty-image.png' ? `${basePath}${selectedProduct.filename.replace('.png', `-${i}.png`)}`: '/images/empty-image.png';
+            imageArray.push(newImagePath);
+        }
+        setImages(imageArray)
+    }, [selectedProduct]);
 
     useEffect(() => {
         setInputValues(selectedProduct);
         getImages();
-    }, [setInputValues, selectedProduct]);
-
-    const formRef = useRef();
+    }, [setInputValues, selectedProduct, getImages]);
 
     useOutsideClose(formRef, () => {
         toggleProductForm(false);
@@ -27,23 +38,8 @@ const ProductForm = ({selectedProduct}) => {
 
     useScrollDisable(isProductFormOpen);
 
-//    useEffect(() => {
-//        getImages();
-//    },[]);
-
-    const getImages = () => {
-        const basePath = '/images/products/';
-        const imageArray = [];
-
-        for (let i = 1; i <= 4; i++) {
-            const newImagePath = selectedProduct.filename ? `${basePath}${selectedProduct.filename.replace('.png', `-${i}.png`)}`: '/images/empty-image.png';
-            imageArray.push(newImagePath);
-        }
-        setImages(imageArray)
-    };
-
      const handleUploadImage = (event, i) => {
-         const file = event.target.files[0];
+         const fileImage = event.target.files[0];
          const reader = new FileReader();
          reader.onloadend = () => {
              const imageUrl = reader.result;
@@ -53,8 +49,9 @@ const ProductForm = ({selectedProduct}) => {
                  return updatedImages;
              });
          };
-         if (file) {
-             reader.readAsDataURL(file);
+         if (fileImage) {
+             reader.readAsDataURL(fileImage);
+             handleUpload(event)
          }
      };
 
@@ -99,106 +96,78 @@ const ProductForm = ({selectedProduct}) => {
 
                                    {/*===== form_fields == ===*/}
                                     <div className="product_form_fields">
-                                        <div className="input_box">
-                                            <input
-                                                type="brand"
-                                                name="brand"
-                                                className="input_field"
-                                                value={inputValues.brand || ''}
-                                                onChange={handleChangeInputValues}
-                                                required
-                                            />
-                                            <label className="input_label">Brand</label>
-                                        </div>
-                                        <div className="input_box">
-                                            <input
-                                                type="title"
-                                                name="title"
-                                                className="input_field"
-                                                value={inputValues.title || ''}
-                                                onChange={handleChangeInputValues}
-                                                required
-                                            />
-                                            <label className="input_label">Title</label>
-                                        </div>
-
-                                        <div className="input_box">
-                                            <input
-                                                type="info"
-                                                name="info"
-                                                className="input_field"
-                                                value={inputValues.info || ''}
-                                                onChange={handleChangeInputValues}
-                                                required
-                                            />
-                                            <label className="input_label">Info</label>
-                                        </div>
-                                        <div className="input_box">
-                                            <input
-                                                type="category"
-                                                name="category"
-                                                className="input_field"
-                                                value={inputValues.category || ''}
-                                                onChange={handleChangeInputValues}
-                                                required
-                                            />
-                                            <label className="input_label">Category</label>
-                                        </div>
-                                        <div className="input_box">
-                                            <input
-                                                type="type"
-                                                name="type"
-                                                className="input_field"
-                                                value={inputValues.type || ''}
-                                                onChange={handleChangeInputValues}
-                                                required
-                                            />
-                                            <label className="input_label">Type</label>
-                                        </div>
-                                        <div className="input_box">
-                                            <input
-                                                type="connectivity"
-                                                name="connectivity"
-                                                className="input_field"
-                                                value={inputValues.connectivity || ''}
-                                                onChange={handleChangeInputValues}
-                                                required
-                                            />
-                                            <label className="input_label">Connectivity</label>
-                                        </div>
-                                        <div className="input_box">
-                                            <input
-                                                type="originalPrice"
-                                                name="originalPrice"
-                                                className="input_field"
-                                                value={inputValues.originalPrice || ''}
-                                                onChange={handleChangeInputValues}
-                                                required
-                                            />
-                                            <label className="input_label">OriginalPrice</label>
-                                        </div>
-                                        <div className="input_box">
-                                            <input
-                                                type="finalPrice"
-                                                name="finalPrice"
-                                                className="input_field"
-                                                value={inputValues.finalPrice || ''}
-                                                onChange={handleChangeInputValues}
-                                                required
-                                            />
-                                            <label className="input_label">FinalPrice</label>
-                                        </div>
-                                        <div className="input_box">
-                                            <input
-                                                type="quantity"
-                                                name="quantity"
-                                                className="input_field"
-                                                value={inputValues.quantity || ''}
-                                                onChange={handleChangeInputValues}
-                                                required
-                                            />
-                                            <label className="input_label">Quantity</label>
-                                        </div>
+                                        <ProductFormField
+                                            type="brand"
+                                            name="brand"
+                                            label="Brand"
+                                            value={inputValues.brand}
+                                            onChange={handleChangeInputValues}
+                                            required
+                                        />
+                                        <ProductFormField
+                                            type="title"
+                                            name="title"
+                                            label="Title"
+                                            value={inputValues.title}
+                                            onChange={handleChangeInputValues}
+                                            required
+                                        />
+                                        <ProductFormField
+                                            type="info"
+                                            name="info"
+                                            label="Info"
+                                            value={inputValues.info}
+                                            onChange={handleChangeInputValues}
+                                            required
+                                        />
+                                        <ProductFormField
+                                            type="category"
+                                            name="category"
+                                            label="Category"
+                                            value={inputValues.category}
+                                            onChange={handleChangeInputValues}
+                                            required
+                                        />
+                                        <ProductFormField
+                                            type="type"
+                                            name="type"
+                                            label="Type"
+                                            value={inputValues.type}
+                                            onChange={handleChangeInputValues}
+                                            required
+                                        />
+                                        <ProductFormField
+                                            type="connectivity"
+                                            name="connectivity"
+                                            label="Connectivity"
+                                            value={inputValues.connectivity}
+                                            onChange={handleChangeInputValues}
+                                            required
+                                        />
+                                        <ProductFormField
+                                            type="originalPrice"
+                                            name="originalPrice"
+                                            label="OriginalPrice"
+                                            value={inputValues.originalPrice}
+                                            onChange={handleChangeInputValues}
+                                            required
+                                        />
+                                        <ProductFormField
+                                            type="finalPrice"
+                                            name="finalPrice"
+                                            label="FinalPrice"
+                                            value={inputValues.finalPrice}
+                                            onChange={handleChangeInputValues}
+                                            required
+                                        />
+                                        <ProductFormField
+                                            type="quantity"
+                                            name="quantity"
+                                            label="Quantity"
+                                            value={inputValues.quantity}
+                                            onChange={handleChangeInputValues}
+                                            required
+                                        />
 
                                         {isError && <label style={{color: 'red'}}>{errorMessage}</label>}
 

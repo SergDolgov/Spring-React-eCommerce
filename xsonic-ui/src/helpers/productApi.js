@@ -3,20 +3,10 @@ import { config } from '../Constants'
 import { parseJwt } from './utils'
 
 export const productApi = {
-  login,
-  registration,
-  getUsers,
-  updateUser,
-  deleteUser,
-  getProduct,
-  getProducts,
-  addProduct,
-  updateProduct,
-  deleteProduct,
-  getAdminProducts,
-  getOrders,
-  getOrder,
-  postOrder
+  login, registration,
+  getUsers,  updateUser,  deleteUser,
+  getProduct,  getProducts,  addProduct,  updateProduct,  deleteProduct,  getAdminProducts,
+  getOrders,  getOrder,  postOrder
  }
 
 function login(user) {
@@ -118,13 +108,13 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use(function (config) {
-  // If token is expired, redirect user to login
+  // If token is expired, redirect start page
   if (config.headers.Authorization) {
     const token = config.headers.Authorization.split(' ')[1]
     const data = parseJwt(token)
 
     if (Date.now() > data.exp * 1000) {
-     window.location.href = '/login'
+     window.location.href = '/'
     }
 
   }

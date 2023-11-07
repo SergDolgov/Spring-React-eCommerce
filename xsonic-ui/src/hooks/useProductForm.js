@@ -29,8 +29,6 @@ const useProductForm = () => {
         setFile(e.target.files[0]);
     };
 
-
-
     const handleFormSubmit = async (e) => {
        e.preventDefault();
 

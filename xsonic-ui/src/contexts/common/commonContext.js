@@ -1,5 +1,6 @@
 import { createContext, useReducer, useEffect } from 'react';
 import commonReducer from './commonReducer';
+import { parseJwt } from '../../helpers/utils'
 
 // Common-Context
 const commonContext = createContext();
@@ -21,6 +22,19 @@ const CommonProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(commonReducer, initialState);
 
+    useEffect(() => {
+        const storedUser = getUser()
+        if(storedUser){
+            const token = storedUser.token
+            const data = parseJwt(token)
+
+            if (data && (Date.now() < data.exp * 1000)) {
+                userLogin(storedUser)
+            }
+
+        }
+    }, [])
+
     function getUser() {
         return JSON.parse(localStorage.getItem('user'));
     }
@@ -33,11 +47,6 @@ const CommonProvider = ({ children }) => {
             payload: {user}
         });
     }
-
-    useEffect(() => {
-         const storedUser = getUser()
-         if(storedUser){userLogin(storedUser)}
-    }, [])
 
     // User logout action
     const userLogout = () => {

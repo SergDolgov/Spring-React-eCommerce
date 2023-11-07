@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.Resource;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     private String bucketName;
 
     @Value("${upload.path}")
-    private String uploadPath;
+    private Resource uploadPath;
 
     @Override
     public Product getProductById(Long productId) {
@@ -116,9 +117,15 @@ public class ProductServiceImpl implements ProductService {
 //            product.setFilename("empty-image.png");
 //        } else {
 //
-//            File uploadDir = new File(uploadPath);
-//            if (!uploadDir.exists()){
-//                uploadDir.mkdir();
+//            File uploadDir = null;
+//            try {
+//                uploadDir = new File(uploadPath.getFile().getAbsolutePath());
+//                if (!uploadDir.exists()){
+//                    uploadDir.mkdir();
+//                }
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
 //            }
 //
 //            File file = new File(uploadDir + "/" + multipartFile.getOriginalFilename());
