@@ -8,6 +8,7 @@ import Cart from '../pages/Cart';
 import Home from '../pages/Home';
 import ProductDetails from '../pages/ProductDetails';
 import ErrorPage from '../pages/ErrorPage';
+import AdminPage from '../pages/AdminPage';
 
 const RouterRoutes = () => {
 
@@ -23,6 +24,7 @@ const RouterRoutes = () => {
                 <Route path="/product-details/:productId" element={<ProductDetails />} />
                 <Route path="*" element={<ErrorPage />} />
                 <Route path="/admin/products" element={<AdminProducts />} />
+                <Route path="/admin" element={<AdminPage />} />
             </Routes>
         </>
     );

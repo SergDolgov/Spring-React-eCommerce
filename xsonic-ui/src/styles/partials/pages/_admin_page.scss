@@ -1,0 +1,15 @@
+#admin_page {
+    @include centered;
+    @include padding-y(8rem, 8rem);
+    text-align: center;
+}
+
+.admin_page_content {
+    margin-bottom: 3rem;
+    @include bordered(2px, rgba($color: #ffffff, $alpha: 0.5));
+    h1 {
+        font-size: 3rem;
+        color: var(--main-color-2);
+    }
+
+}

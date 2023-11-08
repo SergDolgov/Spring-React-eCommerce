@@ -53,7 +53,6 @@ const CommonProvider = ({ children }) => {
         localStorage.removeItem('user')
         return dispatch({
             type: 'USER_LOGOUT'//,
-            //payload: {}
         });
     };
 

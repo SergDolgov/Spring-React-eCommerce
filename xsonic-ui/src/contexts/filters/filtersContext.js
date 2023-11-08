@@ -1,5 +1,6 @@
 import { useState, createContext, useContext, useEffect, useReducer } from 'react';
-import productsData from '../../data/productsData';
+//import productsData from '../../data/productsData';
+import commonContext from '../../contexts/common/commonContext';
 import { brandsMenu, categoryMenu } from '../../data/filterBarData';
 import filtersReducer from './filtersReducer';
 import { productApi } from '../../helpers/productApi'
@@ -25,44 +26,50 @@ const initialState = {
         isMobSortVisible: false,
         isMobFilterVisible: false,
     },
+    isError: false,
+    errorMessage: '',
 };
 
 // Filters-Provider Component
 const FiltersProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(filtersReducer, initialState);
+    const { isProductUpdated, setIsProductUpdated } = useContext(commonContext);
 
-    const [allProducts1, setAllProducts1] = useState([])
-
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-     const fetchData = async () => {
-         try {
-             const response = await productApi.getProducts();
-             setAllProducts1(response.data);
-         } catch (error) {
-//             handleLogError(error);
-//             if (error.response && error.response.data) {
-//                 const errorMessage = error.response.data;
-//                 setIsError(true);
-//                 setErrorMessage(errorMessage);
-//             }
-         } finally {
-             setIsLoading(false);
-         }
-     };
-
-     fetchData();
-    }, []);
+    const [products, setProducts] = useState([])
 
     useEffect(() => {
-     if (!isLoading) {
-         applyFilters();
-         setIsProductsLoading(false);
-     }
-    }, [isLoading, state.sortedValue, state.updatedBrandsMenu, state.updatedCategoryMenu, state.selectedPrice]);
+        const fetchData = async () => {
+            try {
+                const response = await productApi.getProducts();
+                setProducts(response.data);
+            } catch (error) {
+                handleLogError(error);
+                if (error.response && error.response.data) {
+                    const errorMessage = error.response.data;
+                    const isError = true;
 
+                    dispatch({
+                        type: 'SET_IS_ERROR_LOADING',
+                        payload: { isError, errorMessage }
+                    });
+                }
+            } finally {
+                setIsProductsLoading(false);
+                setIsProductUpdated(false);
+            }
+        };
+
+        fetchData();
+
+    }, [isProductUpdated]);
+
+    useEffect(() => {
+        if (!state.isProductsLoading) {
+            applyFilters();
+            setIsProductsLoading(false);
+        }
+    }, [state.isProductsLoading, state.sortedValue, state.updatedBrandsMenu, state.updatedCategoryMenu, state.selectedPrice]);
 
 
     /* Loading All Products on the initial render */
@@ -71,28 +78,24 @@ const FiltersProvider = ({ children }) => {
         // making a shallow copy of the original products data, because we should never mutate the original data.
         //const products = [...productsData];
 
-       //getAllProducts()
-        const products = [...allProducts1];
-
+        if (products.length) {
         // finding the Max and Min Price, & setting them into the state.
-        const priceArr = products.map(item => item.finalPrice);
-        const minPrice = 100//Math.min(...priceArr);
-        const maxPrice = 50000//Math.max(...priceArr);
+            const priceArr = products.map(item => item.finalPrice);
+            const minPrice = Math.min(...priceArr);
+            const maxPrice = Math.max(...priceArr);
 
-        dispatch({
-            type: 'LOAD_ALL_PRODUCTS',
-            payload: { products, minPrice, maxPrice }
-        });
-
-    }, []);
-
+            dispatch({
+                type: 'LOAD_ALL_PRODUCTS',
+                payload: { products, minPrice, maxPrice }
+            });
+        }
+    }, [products]);
 
     /* function for applying Filters - (sorting & filtering) */
     const applyFilters = () => {
 
         //let updatedProducts = [...productsData];
-        //getAllProducts()
-        let updatedProducts = [...allProducts1];
+        let updatedProducts = [...products];
 
         /*==== Sorting ====*/
         if (state.sortedValue) {
@@ -154,12 +157,6 @@ const FiltersProvider = ({ children }) => {
             payload: { updatedProducts }
         });
     };
-
-    useEffect(() => {
-        applyFilters();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.sortedValue, state.updatedBrandsMenu, state.updatedCategoryMenu, state.selectedPrice]);
-
 
     // Dispatched Actions
     const setIsProductsLoading = (loading) => {
@@ -230,6 +227,7 @@ const FiltersProvider = ({ children }) => {
         handleMobSortVisibility,
         handleMobFilterVisibility,
         handleClearFilters,
+        setIsProductsLoading,
     };
 
 

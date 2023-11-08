@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect} from 'react';
+import React, { useContext, useState } from 'react';
 import { BsExclamationCircle, BsPencilSquare, BsTrash, BsPlusSquare, BsFiles } from 'react-icons/bs';
 import useDocTitle from '../hooks/useDocTitle';
 import FilterBar from '../components/filters/FilterBar';
@@ -15,48 +15,15 @@ import { handleLogError } from '../helpers/utils'
 const AdminProducts = () => {
     useDocTitle('Admin Products');
 
-    const { toggleProductForm, getUser, isProductUpdated, setIsProductUpdated } = useContext(commonContext);
+    const { toggleProductForm, getUser, setIsProductUpdated } = useContext(commonContext);
 
     const [isError, setIsError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
     const user = getUser();
-    //const { allProducts, isProductsLoading } = useContext(filtersContext);
-    const [allProducts, setAllProducts] = useState([])
+    const { allProducts, isProductsLoading } = useContext(filtersContext);
 
     const [selectedProduct, setSelectedProduct] = useState({});
-    const [isProductsLoading, setIsProductsLoading] = useState(false)
-
-    const [isOpen, setIsOpen] = useState(true)
-
-    //setIsProductUpdated(true)
-
-    useEffect(() => {
-        // get all products
-        const fetchData = async () => {
-            if (isOpen || isProductUpdated){
-                try {
-                    setIsProductsLoading(true)
-                    const response = await productApi.getAdminProducts(user,'');
-                    setAllProducts(response.data)
-                } catch (error) {
-                    handleLogError(error);
-                    if (error.response && error.response.data) {
-                       const errorMessage = error.response.data;
-                       setIsError(true);
-                       setErrorMessage(errorMessage);
-                    }
-                } finally {
-                    setIsProductsLoading(false)
-                    setIsProductUpdated(false)
-                    setIsOpen(false)
-                }
-            }
-        }
-
-        fetchData();
-
-    }, [isProductUpdated, setIsProductUpdated, user ])
 
     // handling add product
     const handleAddProductForm = () => {
@@ -103,6 +70,7 @@ const AdminProducts = () => {
             <section id="admin_products" className="section">
                 <FilterBar />
                 <div className="container">
+                    {isError && <label style={{color: 'red'}}>{errorMessage}</label>}
                     {
                         isProductsLoading ? (
                             <Preloader />

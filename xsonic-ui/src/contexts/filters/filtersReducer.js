@@ -107,6 +107,14 @@ const filtersReducer = (state, action) => {
             };
 
 
+        case 'SET_IS_ERROR_LOADING':
+            return {
+                ...state,
+                isError: action.payload.isError,
+                errorMessage: action.payload.errorMessage
+            };
+
+
         default:
             return state;
     }
