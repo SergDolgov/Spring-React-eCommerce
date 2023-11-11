@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useCallback, useEffect } from 'react';
 import { TbTrash } from 'react-icons/tb';
 import { Link } from 'react-router-dom';
 import { displayMoney } from '../../helpers/utils';
@@ -8,13 +8,29 @@ import QuantityBox from '../common/QuantityBox';
 
 const CartItem = (props) => {
 
-    const { id, images, title, info, finalPrice, originalPrice, quantity, path } = props;
+    const { id, filename, title, info, finalPrice, originalPrice, quantity, path } = props;
 
     const { removeItem } = useContext(cartContext);
 
     const newPrice = displayMoney(finalPrice);
     const oldPrice = displayMoney(originalPrice);
 
+    const [images, setImages] = useState([]);
+
+    const getImages = useCallback(() => {
+        const basePath = '/images/products/';
+        const imageArray = [];
+
+        for (let i = 1; i <= 4; i++) {
+            const newImagePath = filename && filename !== 'empty-image.png' ? `${basePath}${filename.replace('.png', `-${i}.png`)}`: '/images/empty-image.png';
+            imageArray.push(newImagePath);
+        }
+        setImages(imageArray)
+    }, [filename]);
+
+    useEffect(() => {
+        getImages();
+    }, [getImages]);
 
     return (
         <>

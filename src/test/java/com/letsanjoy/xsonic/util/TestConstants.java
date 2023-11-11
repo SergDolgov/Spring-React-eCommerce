@@ -40,20 +40,9 @@ public class TestConstants {
     public static final Integer QUANTITY = 1;
     public static final Integer PRICE = 192;
     public static final String INFO = "200";
-    public static final String TYPE = "Eau de parfum";
+    public static final String TYPE = "Eau de product";
 
-    public static final String FILE_NAME = "Chanel N5.jpg";
-    public static final String FILE_PATH = "src/test/resources/empty.jpg";
+    public static final String FILE_NAME = "boat110-1.png";
+    public static final String FILE_PATH = "src/test/resources/empty-image.png";
 
-    public static final String GRAPHQL_QUERY_USERS = "{ users { id email password firstName lastName city " +
-            "address phoneNumber postIndex activationCode passwordResetCode active provider roles } }";
-    public static final String GRAPHQL_QUERY_USER = "{ user(id: 122) { id email password firstName lastName city " +
-            "address phoneNumber postIndex activationCode passwordResetCode active provider roles } }";
-    public static final String GRAPHQL_QUERY_ORDERS = "{ orders { id totalPrice date firstName lastName city address " +
-            "email phoneNumber postIndex orderItems { id amount quantity product { id title brand price filename } } } }";
-    public static final String GRAPHQL_QUERY_ORDERS_BY_EMAIL = "{ ordersByEmail(email: \"test123@test.com\") { id totalPrice date firstName lastName city address " +
-            "email phoneNumber postIndex orderItems { id amount quantity product { id title brand price filename } } } }";
-    public static final String GRAPHQL_QUERY_PRODUCTS_BY_IDS = "{ productsIds(ids: [3,4,5]) { id title brand price } }";
-    public static final String GRAPHQL_QUERY_PRODUCTS = "{ products { id title brand price filename } }";
-    public static final String GRAPHQL_QUERY_PRODUCT = "{ product(id: 1) { id title brand price } }";
 }
