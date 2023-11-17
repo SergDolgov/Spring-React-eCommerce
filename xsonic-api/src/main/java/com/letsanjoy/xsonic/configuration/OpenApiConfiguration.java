@@ -14,8 +14,8 @@ import static com.letsanjoy.xsonic.constants.PathConstants.BEARER_KEY_SECURITY_S
                 description = "XSonic System", version = "1.0.0",
                 contact = @Contact(
                         name = "Sergey Dolgov",
-                        email = "saddolgov@gmail.com",
-                        url = "https://sergeydolgov.dev"
+                        email = "saddolgov@gmail.com"
+                        //url = "https://sergeydolgov.dev"
                 )
         )
 )

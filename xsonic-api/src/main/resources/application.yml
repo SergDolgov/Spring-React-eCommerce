@@ -7,9 +7,16 @@ spring:
     generate-ddl: true
     show-sql: true
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost/xsonic}
-    username: ${SPRING_DATASOURCE_USERNAME:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:xsonic}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    initialization-mode: always
+    initialize: true
+    continue-on-error: true
+    platform: postgresql
+    maxActive: 3
+
   security:
     oauth2:
       client:
@@ -22,16 +29,18 @@ spring:
             clientId: ${GOOGLE_CLIENT_ID:452294761260-c38fh0tjbumc3abspj8khd8qnvlv2vri.apps.googleusercontent.com}
             clientSecret: ${GOOGLE_CLIENT_SECRET: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}
             scope: profile, email
+
   servlet:
     multipart:
       enabled: true
       file-size-threshold: 2MB
       max-file-size: 5MB
       max-request-size: 10MB
+
   mail:
     host: smtp.gmail.com
-    username: saddolgov@gmail.com
-    password: hwpsvefofibyxvcr
+    username: ${MAIL_USERNAME:saddolgov@gmail.com}
+    password: ${MAIL_PASSWORD:hwpsvefofibyxvcr}
     port: 465
     protocol: smtps
     properties:
@@ -51,16 +60,13 @@ app:
     header: Authorization
     # Signing key for HS512 algorithm
     # In https://it-tools.tech/token-generator you can generate all kinds of keys
-    secret: v9y$B&E)H@MbQeThWmZq4t7w!z%C*F-JaNdRfUjXn2r5u8x/A?D(G+KbPeShVkYp
-    #secret: djaveu
+    secret: ${API_SECRET:KBsbQQzk/ywupPhUIisr{bad:r08qLvetdu#ZX:i-Lu)K-jS@WJwmOl6g-\ods+s}
     expiration:
         minutes: 60
   oauth2:
-    #redirectUri: http://localhost:3000/oauth2/redirect
-    redirectUri: http://localhost:9000/oauth2/redirect
+    redirectUri: ${REDIRECT_URI:http://localhost:3000/oauth2/redirect}
   cors:
-    #allowed-origins: http://localhost:3000
-    allowed-origins: http://localhost:9000
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000}
 
 upload:
   path: classpath:images
@@ -71,7 +77,7 @@ amazon:
     secret-key: ${AMAZON_SECRET_KEY:etSYozkD2dpYabmoMoje4n5d/MjrMDYps65cXajz}
   s3:
     bucket:
-      name: ${AMAZON_S3_BUCKET_NAME:perfumeswebstorage}
+      name: ${AMAZON_S3_BUCKET_NAME:xsonicwebstore}
 
 
 
@@ -90,4 +96,4 @@ mail:
   debug: false
 
 server:
-  port: 8888
+  port: ${SERVER_PORT:8888}

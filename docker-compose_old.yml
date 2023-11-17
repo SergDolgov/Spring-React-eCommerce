@@ -1,0 +1,123 @@
+version: "3"
+services: 
+
+  sales-db:
+    image: mongo:latest
+    container_name: sales-db
+    restart: always
+    networks:
+      - sales-network
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+    ports:
+      - 28017:28017
+      - 27017:27017
+
+  auth-db:
+    image: postgres:11
+    container_name: auth-db
+    restart: always
+    networks:
+      - sales-network
+    environment:
+      - POSTGRES_DB=auth-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - 5444:5432
+
+  sales_rabbit:
+    image: rabbitmq:3-management
+    container_name: sales_rabbit
+    hostname: sales_rabbit
+    networks:
+      - sales-network
+    ports:
+      - 5672:5672
+      - 25676:25676
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  product-db:
+    image: postgres:11
+    container_name: product-db
+    restart: always
+    networks:
+      - sales-network
+    environment:
+      - POSTGRES_DB=product-db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - 5433:5432
+
+  product-api:
+    build: './product-api'
+    container_name: product-api
+    depends_on:
+      - product-db
+      - sales_rabbit
+    networks:
+      - sales-network
+    environment:
+      - PORT=8083
+      - API_SECRET=YXV0aC1hcGktc2VjcmV0LWNvbnRhaW5lci0xMjM0NTY=
+      - DB_HOST=product-db
+      - DB_NAME=product-db
+      - DB_USER=admin
+      - DB_PASSWORD=123456
+      - DB_PORT=5432
+      - RABBIT_MQ_HOST=sales_rabbit
+      - RABBIT_MQ_PORT=5672
+      - RABBIT_MQ_USER=guest
+      - RABBIT_MQ_PASSWORD=guest
+      - SALES_HOST=sales-api
+      - SALES_PORT=8082
+    ports:
+      - 8083:8083
+
+  sales-api:
+    build: './sales-api'
+    container_name: sales-api
+    depends_on:
+      - sales-db
+      - sales_rabbit
+      - product-api
+    networks:
+      - sales-network
+    environment:
+      - PORT=8082
+      - API_SECRET=YXV0aC1hcGktc2VjcmV0LWNvbnRhaW5lci0xMjM0NTY=
+      - MONGO_DB_URL=mongodb://admin:123456@sales-db:27017/
+      - RABBIT_MQ_URL=amqp://sales_rabbit:5672
+      - PRODUCT_API_URL=http://product-api:8083/api/product
+      - NODE_ENV=container
+    ports:
+      - 8082:8082
+
+  auth-api:
+    build: './auth-api'
+    container_name: auth-api
+    depends_on:
+      - auth-db
+      - product-api
+    networks:
+      - sales-network
+    environment:
+      - PORT=8080
+      - API_SECRET=YXV0aC1hcGktc2VjcmV0LWNvbnRhaW5lci0xMjM0NTY=
+      - DB_HOST=auth-db
+      - DB_NAME=auth-db
+      - DB_USER=postgres
+      - DB_PASSWORD=123456
+      - DB_PORT=5432
+      - NODE_ENV=container
+    ports:
+      - 8080:8080
+
+networks:
+  sales-network:
+    driver: bridge

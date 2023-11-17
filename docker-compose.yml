@@ -1,0 +1,58 @@
+version: "3"
+services:
+
+  xsonic-db:
+    image: postgres:15
+    container_name: xsonic-db
+    restart: always
+    networks:
+      - xsonic-network
+    environment:
+      - POSTGRES_DB=xsonic
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+
+  xsonic-api:
+    build: './xsonic-api'
+    container_name: xsonic-api
+    depends_on:
+      - xsonic-db
+    environment:
+      - SERVER_PORT=8888
+      - DB_HOST=xsonic-db
+      - DB_NAME=xsonic
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_PORT=5432
+      - API_SECRET=KBsbQQzk/ywupPhUIisr{bad:r08qLvetdu#ZX:i-Lu)K-jS@WJwmOl6g-\ods+s
+      - REDIRECT_URI=http://localhost:3000/oauth2/redirect
+      - ALLOWED_ORIGINS=http://localhost:3000
+      - GITHUB_CLIENT_ID=1153f68a72318896d4d6
+      - GITHUB_CLIENT_SECRET=dad649876e973a2010c4d5089c6513dbd0a1cc07
+      - GOOGLE_CLIENT_ID=452294761260-c38fh0tjbumc3abspj8khd8qnvlv2vri.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=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
+      - MAIL_USERNAME=saddolgov@gmail.com
+      - MAIL_PASSWORD=hwpsvefofibyxvcr
+      - AMAZON_ACCESS_KEY=AKIATP4TDBGPCTXUIXD2
+      - AMAZON_SECRET_KEY=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
+      - AMAZON_S3_BUCKET_NAME=xsonicwebstore
+    networks:
+      - xsonic-network
+    ports:
+      - 8888:8888
+
+  xsonic-ui:
+    build: './xsonic-ui'
+    container_name: xsonic-ui
+    depends_on:
+      - xsonic-api
+    networks:
+      - xsonic-network
+    ports:
+      - 3000:3000
+
+networks:
+  xsonic-network:
+    driver: bridge

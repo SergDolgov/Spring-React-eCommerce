@@ -10,7 +10,7 @@ const dev = {
     //API_BASE_URL: 'http://localhost:8080',
     //OAUTH2_REDIRECT_URI: 'http://localhost:3000/oauth2/redirect'
     API_BASE_URL: 'http://localhost:8888',
-    OAUTH2_REDIRECT_URI: 'http://localhost:9000/oauth2/redirect'
+    OAUTH2_REDIRECT_URI: 'http://localhost:3000/oauth2/redirect'
   }
 }
 
