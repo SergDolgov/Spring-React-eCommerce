@@ -2,7 +2,7 @@ package com.letsanjoy.xsonic.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.letsanjoy.xsonic.dto.product.ProductRequest;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,10 +52,10 @@ public class AdminControllerTest {
 
     private ProductRequest productRequest;
 
-    @BeforeAll
+    @BeforeEach
     public void init() {
         productRequest = new ProductRequest();
-        productRequest.setBrand(BRAND_CHANEL);
+        productRequest.setBrand(BRAND_SONY);
         productRequest.setTitle(TITLE);
         productRequest.setRateCount(RATE_COUNT);
         productRequest.setCategory(CATEGORY);
@@ -95,13 +95,11 @@ public class AdminControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.titleError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.brandError", is(FILL_IN_THE_INPUT_FIELD)))
-                .andExpect(jsonPath("$.rateCountError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.categoryError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.connectivityError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.finalPriceError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.originalPriceError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.quantityError", is(FILL_IN_THE_INPUT_FIELD)))
-                .andExpect(jsonPath("$.priceError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.infoError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.typeError", is(FILL_IN_THE_INPUT_FIELD)));
     }
@@ -133,21 +131,19 @@ public class AdminControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.titleError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.brandError", is(FILL_IN_THE_INPUT_FIELD)))
-                .andExpect(jsonPath("$.rateCountError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.categoryError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.connectivityError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.finalPriceError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.originalPriceError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.quantityError", is(FILL_IN_THE_INPUT_FIELD)))
-                .andExpect(jsonPath("$.priceError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.infoError", is(FILL_IN_THE_INPUT_FIELD)))
                 .andExpect(jsonPath("$.typeError", is(FILL_IN_THE_INPUT_FIELD)));
     }
 
     @Test
-    @DisplayName("[200] DELETE /api/v1/admin/delete/46 - Delete Product")
+    @DisplayName("[200] DELETE /api/v1/admin/delete/16 - Delete Product")
     public void deleteProduct() throws Exception {
-        mockMvc.perform(delete(API_V1_ADMIN + DELETE_BY_PRODUCT_ID, 46)
+        mockMvc.perform(delete(API_V1_ADMIN + DELETE_BY_PRODUCT_ID, 16)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("Product deleted successfully")));

@@ -25,7 +25,7 @@ public interface ProductService {
 
     List<Product> findByBrand(String brand);
 
-    List<Product> findByConnectivity(String connectivity);
+    List<Product> findByCategory(String connectivity);
     
     Page<ProductProjection> findByInputText(SearchProduct searchType, String text, Pageable pageable);
 

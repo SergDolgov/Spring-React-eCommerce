@@ -23,7 +23,7 @@ public class ProductMapperTest {
     @Test
     public void convertToEntity() {
         ProductRequest productRequest = new ProductRequest();
-        productRequest.setBrand(BRAND_CHANEL);
+        productRequest.setBrand(BRAND_SONY);
         productRequest.setTitle(TITLE);
         productRequest.setRateCount(RATE_COUNT);
         productRequest.setCategory(CATEGORY);
@@ -53,7 +53,7 @@ public class ProductMapperTest {
     public void convertToResponseDto() {
         Product product = new Product();
         product.setId(1L);
-        product.setBrand(BRAND_CHANEL);
+        product.setBrand(BRAND_SONY);
         product.setTitle(TITLE);
         product.setRateCount(RATE_COUNT);
         product.setCategory(CATEGORY);

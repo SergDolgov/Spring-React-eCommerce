@@ -53,7 +53,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Value("${recaptcha.url}")
     private String captchaUrl;
 
-    @Value("${emailConfirmation}")
+    @Value("${email.confirmation}")
     private boolean emailConfirmation;
 
     @Override

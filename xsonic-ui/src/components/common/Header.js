@@ -36,11 +36,11 @@ const Header = () => {
         navigate('/')
     }
 
-    useEffect(() => {
-        if (isAdminRole) {
-            navigate('/admin')
-        }
-    }, [isAdminRole]);
+//    useEffect(() => {
+//        if (isAdminRole) {
+//            navigate('/admin')
+//        }
+//    }, [isAdminRole]);
 
 
     // handle the sticky-header

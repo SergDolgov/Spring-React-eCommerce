@@ -39,14 +39,13 @@ public class PathConstants {
     public static final String RESET_CODE = RESET + CODE;
     public static final String ACTIVATE_CODE = "/activate" + CODE;
     public static final String UPDATE_PASSWORD = "/update/password";
-
     public static final String ORDER_ID = "/{orderId}";
     public static final String ORDER_ID_ITEMS = ORDER_ID + "/items";
 
     public static final String PRODUCT_ID = "/{productId}";
     public static final String IDS = "/ids";
     public static final String SEARCH = "/search";
-    public static final String SEARCH_CONNECTIVITY = SEARCH + "/connectivity";
+    public static final String SEARCH_CATEGORY = SEARCH + "/category";
     public static final String SEARCH_BRAND = SEARCH + "/brand";
     public static final String SEARCH_TEXT = SEARCH + "/text";
     public static final String GRAPHQL_IDS = GRAPHQL + IDS;

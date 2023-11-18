@@ -25,7 +25,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByBrandOrderByPriceDesc(String brand);
 
-    List<Product> findByConnectivityOrderByPriceDesc(String connectivity);
+    List<Product> findByCategoryOrderByPriceDesc(String category);
 
     List<Product> findByIdIn(List<Long> productsIds);
 
@@ -34,12 +34,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT product FROM Product product " +
             "WHERE (coalesce(:brands, null) IS NULL OR product.brand IN :brands) " +
-            "AND (coalesce(:connectivities, null) IS NULL OR product.connectivity IN :connectivities) " +
+            "AND (coalesce(:categories, null) IS NULL OR product.category IN :categories) " +
             "AND (coalesce(:priceStart, null) IS NULL OR product.price BETWEEN :priceStart AND :priceEnd) " +
             "ORDER BY CASE WHEN :sortByPrice = true THEN product.price ELSE -product.price END ASC")
     Page<ProductProjection> findProductsByFilterParams(
             List<String> brands, 
-            List<String> connectivities, 
+            List<String> categories,
             Integer priceStart, 
             Integer priceEnd, 
             boolean sortByPrice,

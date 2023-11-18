@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
     public Page<ProductProjection> findProductsByFilterParams(ProductSearchRequest filter, Pageable pageable) {
         return productRepository.findProductsByFilterParams(
                 filter.getBrands(),
-                filter.getConnectivities(),
+                filter.getCategories(),
                 filter.getPrices().get(0),
                 filter.getPrices().get(1),
                 filter.getSortByPrice(),
@@ -79,14 +79,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findByConnectivity(String connectivity) {
-        return productRepository.findByConnectivityOrderByPriceDesc(connectivity);
+    public List<Product> findByCategory(String category) {
+        return productRepository.findByCategoryOrderByPriceDesc(category);
     }
 
     @Override
     public Page<ProductProjection> findByInputText(SearchProduct searchType, String text, Pageable pageable) {
         if (searchType.equals(SearchProduct.BRAND)) {
             return productRepository.findByBrand(text, pageable);
+        } else if (searchType.equals(SearchProduct.CATEGORY)) {
+            return productRepository.findByCategory(text, pageable);
         } else if (searchType.equals(SearchProduct.TITLE)) {
             return productRepository.findByTitle(text, pageable);
         } else {

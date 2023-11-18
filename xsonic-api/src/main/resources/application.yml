@@ -90,7 +90,8 @@ logging:
     org.springframework.security: DEBUG
     org.hibernate.SQL: DEBUG
 
-emailConfirmation: false
+email:
+  confirmation: true
 
 mail:
   debug: false

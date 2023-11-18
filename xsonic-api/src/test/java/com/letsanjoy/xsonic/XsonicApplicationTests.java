@@ -12,6 +12,6 @@ class XsonicApplicationTests {
 
 	@Test
 	public void main() {
-	XsonicApplication.main(new String[] {});
+		XsonicApplication.main(new String[] {});
 	}
 }

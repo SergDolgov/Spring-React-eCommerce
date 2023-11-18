@@ -60,7 +60,7 @@ public class UserControllerTest {
     @Test
     public void getUserInfoByToken() throws Exception {
         mockMvc.perform(get(API_V1_USERS)
-                        .header("Authorization", JWT_TOKEN)
+                        .header("Authorization", "Bearer "+JWT_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
@@ -70,14 +70,14 @@ public class UserControllerTest {
 
     @Test
     public void getUserInfoByTokenExpired() throws Exception {
-        Exception exception = assertThrows(AuthenticationException.class, () -> {
+        //Exception exception = assertThrows(AuthenticationException.class, () -> {
             mockMvc.perform(get(API_V1_USERS)
-                            .header("Authorization", "jwt")
+                            .header("Authorization", "Bearer jwt")
                             .contentType(MediaType.APPLICATION_JSON_VALUE))
                     .andExpect(status().isUnauthorized());
-        });
+        //});
 
-        String actualMessage = exception.getMessage();
+        //String actualMessage = exception.getMessage();
     }
 
     @Test

@@ -93,11 +93,11 @@ create table users
     primary key (id)
 );
 
-alter table if exists orders_order_items add constraint UK_9d47gapmi35omtannusv6btu3 unique (order_items_id);
-alter table if exists product_reviews add constraint UK_gp5u9cs9leiwnbh2rhn27e2w7 unique (reviews_id);
-alter table if exists order_item add constraint FKst073lwr6yongjsmgaravadre foreign key (product_id) references product;
-alter table if exists orders_order_items add constraint FK7nw03p9mxq154wvbsonaq0qrw foreign key (order_items_id) references order_item;
-alter table if exists orders_order_items add constraint FK3l8rktw0f4w5t6tift31e2d7c foreign key (order_id) references orders;
-alter table if exists product_reviews add constraint FKq51iuslnvq3nw8teocq9y7ag8 foreign key (reviews_id) references review;
-alter table if exists product_reviews add constraint FK7k3k0ru1omu7xdtdamtrl276 foreign key (product_id) references product;
-alter table if exists user_role add constraint FKj345gk1bovqvfame88rcx7yyx foreign key (user_id) references users;
+alter table if exists orders_order_items add constraint UK_orders_order_items_id unique (order_items_id);
+alter table if exists product_reviews add constraint UK_product_reviews_id unique (reviews_id);
+alter table if exists order_item add constraint FK_order_items_product_id foreign key (product_id) references product;
+alter table if exists orders_order_items add constraint FK_orders_order_items_id foreign key (order_items_id) references order_item;
+alter table if exists orders_order_items add constraint FK_orders_order_id foreign key (order_id) references orders;
+alter table if exists product_reviews add constraint FK_product_reviews_id foreign key (reviews_id) references review;
+alter table if exists product_reviews add constraint FK_product_reviews_product_id foreign key (product_id) references product;
+alter table if exists user_role add constraint FK_user_role_user_id foreign key (user_id) references users;

@@ -36,3 +36,11 @@ INSERT INTO product (id, filename, brand, title, info, category, type, connectiv
 VALUES (18, 'sony-ex14ap.png','Sony','Sony MDR-EX14AP','In-Ear Wired Earphones','Earphones','In Ear','Wired', 559,549,1290,1,530,4);
 INSERT INTO product (id, filename, brand, title, info, category, type, connectivity, price, final_price, original_price, quantity, ratings, rate_count)
 VALUES (19, 'sonyxb400.png','Sony','Sony WI-XB400','Wireless Extra Bass In-Ear Neckbands','Neckbands','In Ear','Wireless', 999,2690,4990,1,474,4);
+
+INSERT INTO review (id, author, date, message, rating) VALUES (123, 'John', '2021-02-07', 'Hello world', 5);
+INSERT INTO review (id, author, date, message, rating) VALUES (124, 'John2', '2021-02-07', 'Hello world2', 4);
+
+INSERT INTO product_reviews (product_id, reviews_id) VALUES (2, 123);
+INSERT INTO product_reviews (product_id, reviews_id) VALUES (2, 124);
+
+

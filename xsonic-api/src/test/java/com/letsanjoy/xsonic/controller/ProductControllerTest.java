@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.letsanjoy.xsonic.dto.product.ProductSearchRequest;
 import com.letsanjoy.xsonic.dto.product.SearchTypeRequest;
 import com.letsanjoy.xsonic.enums.SearchProduct;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,19 +46,19 @@ public class ProductControllerTest {
 
     private ProductSearchRequest filter;
 
-    @BeforeAll
+    @BeforeEach
     public void init() {
         List<Integer> prices = new ArrayList<>();
         List<String> brands = new ArrayList<>();
-        List<String> genders = new ArrayList<>();
-        brands.add(BRAND_CHANEL);
-        genders.add(CONNECTIVITY);
+        List<String> categories = new ArrayList<>();
+        brands.add(BRAND_SONY);
+        categories.add(CATEGORY);
         prices.add(1);
-        prices.add(1000);
+        prices.add(10000);
 
         filter = new ProductSearchRequest();
         filter.setBrands(brands);
-        filter.setConnectivities(genders);
+        filter.setCategories(categories);
         filter.setPrices(prices);
         filter.setSortByPrice(true);
 
@@ -82,9 +82,9 @@ public class ProductControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(1)))
-                .andExpect(jsonPath("$.title", equalTo("Boss Bottled Night")))
-                .andExpect(jsonPath("$.brand", equalTo("Hugo Boss")))
-                .andExpect(jsonPath("$.category", equalTo("Germany")));
+                .andExpect(jsonPath("$.title", equalTo("JBL Live 660NC")))
+                .andExpect(jsonPath("$.brand", equalTo("JBL")))
+                .andExpect(jsonPath("$.category", equalTo("Headphones")));
     }
 
     @Test
@@ -125,13 +125,13 @@ public class ProductControllerTest {
     public void findProductsByFilterParamsBrands() throws Exception {
         ProductSearchRequest filter = new ProductSearchRequest();
         List<String> brands = new ArrayList<>();
-        brands.add(BRAND_CHANEL);
+        brands.add(BRAND_SONY);
         List<Integer> prices = new ArrayList<>();
         prices.add(150);
-        prices.add(250);
+        prices.add(25000);
 
         filter.setBrands(brands);
-        filter.setConnectivities(new ArrayList<>());
+        //filter.setCategories(new ArrayList<>());
         filter.setPrices(prices);
         filter.setSortByPrice(true);
 
@@ -147,11 +147,11 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void findByConnectivity() throws Exception {
+    public void findByCategory() throws Exception {
         ProductSearchRequest filter = new ProductSearchRequest();
-        filter.setConnectivity(CONNECTIVITY);
+        filter.setCategory(CATEGORY);
 
-        mockMvc.perform(post(API_V1_PRODUCTS + SEARCH_CONNECTIVITY)
+        mockMvc.perform(post(API_V1_PRODUCTS + SEARCH_CATEGORY)
                         .content(mapper.writeValueAsString(filter))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -165,7 +165,7 @@ public class ProductControllerTest {
     @Test
     public void findByBrand() throws Exception {
         ProductSearchRequest filter = new ProductSearchRequest();
-        filter.setBrand(BRAND_CHANEL);
+        filter.setBrand(BRAND_SONY);
 
         mockMvc.perform(post(API_V1_PRODUCTS + SEARCH_BRAND)
                         .content(mapper.writeValueAsString(filter))
@@ -182,21 +182,7 @@ public class ProductControllerTest {
     public void findByInputText() throws Exception {
         SearchTypeRequest request = new SearchTypeRequest();
         request.setSearchType(SearchProduct.CATEGORY);
-        request.setText("France");
-        
-        mockMvc.perform(post(API_V1_PRODUCTS + SEARCH_TEXT)
-                        .content(mapper.writeValueAsString(request))
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*]", hasSize(15)))
-                .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].title").isNotEmpty())
-                .andExpect(jsonPath("$[*].brand").isNotEmpty())
-                .andExpect(jsonPath("$[*].filename").isNotEmpty())
-                .andExpect(jsonPath("$[*].price").isNotEmpty());
-
-        request.setSearchType(SearchProduct.BRAND);
-        request.setText("Creed");
+        request.setText(CATEGORY);
         
         mockMvc.perform(post(API_V1_PRODUCTS + SEARCH_TEXT)
                         .content(mapper.writeValueAsString(request))
@@ -209,14 +195,28 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$[*].filename").isNotEmpty())
                 .andExpect(jsonPath("$[*].price").isNotEmpty());
 
+        request.setSearchType(SearchProduct.BRAND);
+        request.setText(BRAND_SONY);
+        
+        mockMvc.perform(post(API_V1_PRODUCTS + SEARCH_TEXT)
+                        .content(mapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*]", hasSize(5)))
+                .andExpect(jsonPath("$[*].id").isNotEmpty())
+                .andExpect(jsonPath("$[*].title").isNotEmpty())
+                .andExpect(jsonPath("$[*].brand").isNotEmpty())
+                .andExpect(jsonPath("$[*].filename").isNotEmpty())
+                .andExpect(jsonPath("$[*].price").isNotEmpty());
+
         request.setSearchType(SearchProduct.TITLE);
-        request.setText("Chanel N5");
+        request.setText("boAt A");
 
         mockMvc.perform(post(API_V1_PRODUCTS + SEARCH_TEXT)
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*]", hasSize(1)))
+                .andExpect(jsonPath("$[*]", hasSize(3)))
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
                 .andExpect(jsonPath("$[*].title").isNotEmpty())
                 .andExpect(jsonPath("$[*].brand").isNotEmpty())

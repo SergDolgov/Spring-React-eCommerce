@@ -49,9 +49,9 @@ public class ProductController {
         return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 
-    @PostMapping(PathConstants.SEARCH_CONNECTIVITY)
-    public ResponseEntity<List<ProductResponse>> findByConnectivity(@RequestBody ProductSearchRequest filter) {
-        return ResponseEntity.ok(productMapper.findByConnectivity(filter.getConnectivity()));
+    @PostMapping(PathConstants.SEARCH_CATEGORY)
+    public ResponseEntity<List<ProductResponse>> findByCategory(@RequestBody ProductSearchRequest filter) {
+        return ResponseEntity.ok(productMapper.findByCategory(filter.getCategory()));
     }
 
     @PostMapping(PathConstants.SEARCH_BRAND)

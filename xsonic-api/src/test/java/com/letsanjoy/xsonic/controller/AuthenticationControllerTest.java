@@ -63,6 +63,17 @@ public class AuthenticationControllerTest {
     }
 
     @Test
+    public void login_admin() throws Exception {
+        authenticationRequest.setEmail(ADMIN_EMAIL);
+        authenticationRequest.setPassword(ADMIN_PASSWORD);
+
+        mockMvc.perform(post(API_V1_AUTH + LOGIN)
+                        .content(mapper.writeValueAsString(authenticationRequest))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void login_ShouldEmailOrPasswordBeNotValid() throws Exception {
         authenticationRequest.setPassword("123");
 

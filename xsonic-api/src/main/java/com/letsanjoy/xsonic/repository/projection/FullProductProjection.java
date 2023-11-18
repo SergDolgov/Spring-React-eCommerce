@@ -28,7 +28,7 @@ public interface FullProductProjection extends ProductProjection{
     void setBrand(String brand);
 
     @Override
-    void setConnectivity(String connectivity);
+    void setCategory(String category);
 
     @Override
     void setPrice(Integer price);

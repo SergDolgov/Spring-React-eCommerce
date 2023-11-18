@@ -99,8 +99,8 @@ public class OrderControllerTest {
     @Test
     public void postOrder() throws Exception {
         Map<Long, Long> productsId = new HashMap<>();
-        productsId.put(2L, 1L);
-        productsId.put(4L, 1L);
+        productsId.put(3L, 1L);
+        productsId.put(5L, 1L);
 
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setFirstName(FIRST_NAME);

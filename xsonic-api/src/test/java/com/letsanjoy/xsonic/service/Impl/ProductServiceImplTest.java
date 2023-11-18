@@ -71,64 +71,64 @@ public class ProductServiceImplTest {
     public void filter() {
         Pageable pageable = PageRequest.of(0, 20);
         
-        ProductProjection productChanel = factory.createProjection(ProductProjection.class);         
-        productChanel.setBrand(BRAND_CHANEL);
-        productChanel.setConnectivity(CONNECTIVITY);
-        productChanel.setPrice(101);
-        ProductProjection productCreed = factory.createProjection(ProductProjection.class);
-        productCreed.setBrand(BRAND_CREED);
-        productCreed.setConnectivity(CONNECTIVITY);
-        productCreed.setPrice(102);
-        Page<ProductProjection> productList = new PageImpl<>(Arrays.asList(productChanel, productCreed));
+        ProductProjection productSony = factory.createProjection(ProductProjection.class);         
+        productSony.setBrand(BRAND_SONY);
+        productSony.setCategory(CATEGORY);
+        productSony.setPrice(101);
+        ProductProjection productJbl = factory.createProjection(ProductProjection.class);
+        productJbl.setBrand(BRAND_JBL);
+        productJbl.setCategory(CATEGORY);
+        productJbl.setPrice(102);
+        Page<ProductProjection> productList = new PageImpl<>(Arrays.asList(productSony, productJbl));
 
         List<String> brands = new ArrayList<>();
-        brands.add(BRAND_CHANEL);
-        brands.add(BRAND_CREED);
+        brands.add(BRAND_SONY);
+        brands.add(BRAND_JBL);
 
-        List<String> genders = new ArrayList<>();
-        genders.add(CONNECTIVITY);
+        List<String> categories = new ArrayList<>();
+        categories.add(CATEGORY);
 
-        when(productRepository.findProductsByFilterParams(brands, genders, 1, 1000, false, pageable)).thenReturn(productList);
+        when(productRepository.findProductsByFilterParams(brands, categories, 1, 1000, false, pageable)).thenReturn(productList);
         ProductSearchRequest filter = new ProductSearchRequest();
         filter.setBrands(brands);
-        filter.setConnectivities(genders);
-        filter.setPrices(Arrays.asList(1, 1000));
+        filter.setCategories(categories);
+        filter.setPrices(Arrays.asList(1, 20000));
         filter.setSortByPrice(false);
         productService.findProductsByFilterParams(filter, pageable);
         assertEquals(2, productList.getTotalElements());
-        assertEquals(productList.getContent().get(0).getBrand(), BRAND_CHANEL);
-        verify(productRepository, times(1)).findProductsByFilterParams(brands, genders, 1, 1000, false, pageable);
+        assertEquals(productList.getContent().get(0).getBrand(), BRAND_SONY);
+        verify(productRepository, times(1)).findProductsByFilterParams(brands, categories, 1, 20000, false, pageable);
     }
 
     @Test
     public void findByBrandOrderByPriceDesc() {
-        Product productChanel = new Product();
-        productChanel.setBrand(BRAND_CHANEL);
-        Product productCreed = new Product();
-        productCreed.setBrand(BRAND_CREED);
+        Product productSony = new Product();
+        productSony.setBrand(BRAND_SONY);
+        Product productJbl = new Product();
+        productJbl.setBrand(BRAND_JBL);
         List<Product> productList = new ArrayList<>();
-        productList.add(productChanel);
-        productList.add(productCreed);
+        productList.add(productSony);
+        productList.add(productJbl);
 
-        when(productRepository.findByBrandOrderByPriceDesc(BRAND_CHANEL)).thenReturn(productList);
-        productService.findByBrand(BRAND_CHANEL);
-        assertEquals(productList.get(0).getBrand(), BRAND_CHANEL);
-        assertNotEquals(productList.get(0).getBrand(), BRAND_CREED);
-        verify(productRepository, times(1)).findByBrandOrderByPriceDesc(BRAND_CHANEL);
+        when(productRepository.findByBrandOrderByPriceDesc(BRAND_SONY)).thenReturn(productList);
+        productService.findByBrand(BRAND_SONY);
+        assertEquals(productList.get(0).getBrand(), BRAND_SONY);
+        assertNotEquals(productList.get(0).getBrand(), BRAND_JBL);
+        verify(productRepository, times(1)).findByBrandOrderByPriceDesc(BRAND_SONY);
     }
 
     @Test
-    public void findByConnectivityOrderByPriceDesc() {
-        Product productChanel = new Product();
-        productChanel.setConnectivity(CONNECTIVITY);
+    public void findByCategoryOrderByPriceDesc() {
+        Product productSony = new Product();
+        productSony.setCategory(CATEGORY);
         List<Product> productList = new ArrayList<>();
-        productList.add(productChanel);
+        productList.add(productSony);
 
-        when(productRepository.findByConnectivityOrderByPriceDesc(CONNECTIVITY)).thenReturn(productList);
-        productService.findByConnectivity(CONNECTIVITY);
-        assertEquals(productList.get(0).getConnectivity(), CONNECTIVITY);
-        assertNotEquals(productList.get(0).getConnectivity(), "male");
-        verify(productRepository, times(1)).findByConnectivityOrderByPriceDesc(CONNECTIVITY);
+        when(productRepository.findByCategoryOrderByPriceDesc(CATEGORY)).thenReturn(productList);
+        productService.findByCategory(CATEGORY);
+        assertEquals(productList.get(0).getCategory(), CATEGORY);
+        assertNotEquals(productList.get(0).getCategory(), "male");
+        verify(productRepository, times(1)).findByCategoryOrderByPriceDesc(CATEGORY);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class ProductServiceImplTest {
         MultipartFile multipartFile = new MockMultipartFile(FILE_NAME, FILE_NAME, "multipart/form-data", FILE_PATH.getBytes());
         Product product = new Product();
         product.setId(1L);
-        product.setBrand(BRAND_CHANEL);
+        product.setBrand(BRAND_SONY);
         product.setFilename(multipartFile.getOriginalFilename());
 
         when(productRepository.save(product)).thenReturn(product);

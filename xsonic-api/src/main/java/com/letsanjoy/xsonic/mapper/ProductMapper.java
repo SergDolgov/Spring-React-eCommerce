@@ -54,8 +54,8 @@ public class ProductMapper {
         return commonMapper.convertToResponseList(productService.findByBrand(brand), ProductResponse.class);
     }
 
-    public List<ProductResponse> findByConnectivity(String connectivity) {
-        return commonMapper.convertToResponseList(productService.findByConnectivity(connectivity), ProductResponse.class);
+    public List<ProductResponse> findByCategory(String category) {
+        return commonMapper.convertToResponseList(productService.findByCategory(category), ProductResponse.class);
     }
     
     public HeaderResponse<ProductResponse> findByInputText(SearchProduct searchType, String text, Pageable pageable) {

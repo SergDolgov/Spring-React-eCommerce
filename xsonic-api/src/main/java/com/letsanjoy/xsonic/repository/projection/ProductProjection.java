@@ -6,6 +6,7 @@ public interface ProductProjection {
     Long getId();
     String getTitle();
     String getBrand();
+    String getCategory();
     Integer getPrice();
     String getFilename();
     Double getRatings();
@@ -16,6 +17,6 @@ public interface ProductProjection {
     Integer getReviewsCount();
 
     void setBrand(String brand);
-    void setConnectivity(String connectivity);
+    void setCategory(String category);
     void setPrice(Integer price);
 }

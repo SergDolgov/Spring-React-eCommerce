@@ -5,13 +5,13 @@ import { calculateDiscount, displayMoney } from '../helpers/utils';
 import useDocTitle from '../hooks/useDocTitle';
 import useActive from '../hooks/useActive';
 import cartContext from '../contexts/cart/cartContext';
-import productsData from '../data/productsData';
+//import productsData from '../data/productsData';
 import SectionsHead from '../components/common/SectionsHead';
 import RelatedSlider from '../components/sliders/RelatedSlider';
 import ProductSummary from '../components/product/ProductSummary';
 import Services from '../components/common/Services';
 import { productApi } from '../helpers/productApi'
-import { handleLogError } from '../helpers/utils'
+//import { handleLogError } from '../helpers/utils'
 
 
 const ProductDetails = () => {
@@ -25,7 +25,7 @@ const ProductDetails = () => {
     const { productId } = useParams();
 
     // here the 'id' received has 'string-type', so converting it to a 'Number'
-    const prodId = parseInt(productId);
+    //const prodId = parseInt(productId);
 
     // showing the Product based on the received 'id'
     //const product = productsData.find(item => item.id === prodId);
@@ -60,7 +60,7 @@ const ProductDetails = () => {
      };
 
      fetchData();
-    }, []);
+    }, [productId]);
 
     useEffect(() => {
      if (!isLoading) {

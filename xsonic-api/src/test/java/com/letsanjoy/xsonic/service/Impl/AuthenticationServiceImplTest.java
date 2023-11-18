@@ -52,8 +52,8 @@ public class AuthenticationServiceImplTest {
     @MockBean
     private PasswordEncoder passwordEncoder;
 
-    @Value("${hostname}")
-    private String hostname;
+    @Value("${app.cors.allowed-origins}")
+    private String allowedOrigins;
 
     @Test
     public void findByPasswordResetCode() {
@@ -93,7 +93,7 @@ public class AuthenticationServiceImplTest {
         String userCreated = authenticationService.registerUser(user, "", USER_PASSWORD);
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("firstName", FIRST_NAME);
-        attributes.put("registrationUrl", "http://" + hostname + "/activate/" + user.getActivationCode());
+        attributes.put("registrationUrl", allowedOrigins + "/activate/" + user.getActivationCode());
 
         assertNotNull(userCreated);
         assertNotNull(user.getActivationCode());
@@ -225,7 +225,7 @@ public class AuthenticationServiceImplTest {
         authenticationService.sendPasswordResetCode(USER_EMAIL);
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("firstName", null);
-        attributes.put("resetUrl", "http://" + hostname + "/reset/" + user.getPasswordResetCode());
+        attributes.put("resetUrl", allowedOrigins + "/reset/" + user.getPasswordResetCode());
 
         assertEquals(USER_EMAIL, user.getEmail());
         assertNotNull(user.getPasswordResetCode());
